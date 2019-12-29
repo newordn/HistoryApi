@@ -1,0 +1,7 @@
+type Post{
+    id: ID! @id
+    title: String!
+    description: String!
+    image: String!
+    createdAt: DateTime! @createdAt
+}
