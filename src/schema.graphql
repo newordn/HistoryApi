@@ -11,9 +11,10 @@ type Post{
     title: String!
     description:String!
     image:String!
+    date:String!
 }
 type Mutation{
-    post(title:String!, description:String!,image:Upload!):Post!
+    post(title:String!, description:String!,date:String!,image:Upload!):Post!
 }
 `
 module.exports={

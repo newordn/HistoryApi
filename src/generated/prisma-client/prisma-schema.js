@@ -47,6 +47,7 @@ type Post {
   description: String!
   image: String!
   createdAt: DateTime!
+  date: String!
 }
 
 type PostConnection {
@@ -60,6 +61,7 @@ input PostCreateInput {
   title: String!
   description: String!
   image: String!
+  date: String!
 }
 
 type PostEdge {
@@ -78,6 +80,8 @@ enum PostOrderByInput {
   image_DESC
   createdAt_ASC
   createdAt_DESC
+  date_ASC
+  date_DESC
 }
 
 type PostPreviousValues {
@@ -86,6 +90,7 @@ type PostPreviousValues {
   description: String!
   image: String!
   createdAt: DateTime!
+  date: String!
 }
 
 type PostSubscriptionPayload {
@@ -110,12 +115,14 @@ input PostUpdateInput {
   title: String
   description: String
   image: String
+  date: String
 }
 
 input PostUpdateManyMutationInput {
   title: String
   description: String
   image: String
+  date: String
 }
 
 input PostWhereInput {
@@ -183,6 +190,20 @@ input PostWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
   NOT: [PostWhereInput!]

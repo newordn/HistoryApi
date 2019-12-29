@@ -4,4 +4,5 @@ type Post{
     description: String!
     image: String!
     createdAt: DateTime! @createdAt
+    date:String!
 }

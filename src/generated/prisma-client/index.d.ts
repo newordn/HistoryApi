@@ -111,7 +111,9 @@ export type PostOrderByInput =
   | "image_ASC"
   | "image_DESC"
   | "createdAt_ASC"
-  | "createdAt_DESC";
+  | "createdAt_DESC"
+  | "date_ASC"
+  | "date_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -120,12 +122,14 @@ export interface PostCreateInput {
   title: String;
   description: String;
   image: String;
+  date: String;
 }
 
 export interface PostUpdateInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
   image?: Maybe<String>;
+  date?: Maybe<String>;
 }
 
 export interface PostWhereInput {
@@ -193,6 +197,20 @@ export interface PostWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
+  date?: Maybe<String>;
+  date_not?: Maybe<String>;
+  date_in?: Maybe<String[] | String>;
+  date_not_in?: Maybe<String[] | String>;
+  date_lt?: Maybe<String>;
+  date_lte?: Maybe<String>;
+  date_gt?: Maybe<String>;
+  date_gte?: Maybe<String>;
+  date_contains?: Maybe<String>;
+  date_not_contains?: Maybe<String>;
+  date_starts_with?: Maybe<String>;
+  date_not_starts_with?: Maybe<String>;
+  date_ends_with?: Maybe<String>;
+  date_not_ends_with?: Maybe<String>;
   AND?: Maybe<PostWhereInput[] | PostWhereInput>;
   OR?: Maybe<PostWhereInput[] | PostWhereInput>;
   NOT?: Maybe<PostWhereInput[] | PostWhereInput>;
@@ -202,6 +220,7 @@ export interface PostUpdateManyMutationInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
   image?: Maybe<String>;
+  date?: Maybe<String>;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -262,6 +281,7 @@ export interface Post {
   description: String;
   image: String;
   createdAt: DateTimeOutput;
+  date: String;
 }
 
 export interface PostPromise extends Promise<Post>, Fragmentable {
@@ -270,6 +290,7 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   description: () => Promise<String>;
   image: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
+  date: () => Promise<String>;
 }
 
 export interface PostSubscription
@@ -280,6 +301,7 @@ export interface PostSubscription
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  date: () => Promise<AsyncIterator<String>>;
 }
 
 export interface PostNullablePromise
@@ -290,6 +312,7 @@ export interface PostNullablePromise
   description: () => Promise<String>;
   image: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
+  date: () => Promise<String>;
 }
 
 export interface PostSubscriptionPayload {
@@ -383,6 +406,7 @@ export interface PostPreviousValues {
   description: String;
   image: String;
   createdAt: DateTimeOutput;
+  date: String;
 }
 
 export interface PostPreviousValuesPromise
@@ -393,6 +417,7 @@ export interface PostPreviousValuesPromise
   description: () => Promise<String>;
   image: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
+  date: () => Promise<String>;
 }
 
 export interface PostPreviousValuesSubscription
@@ -403,6 +428,7 @@ export interface PostPreviousValuesSubscription
   description: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  date: () => Promise<AsyncIterator<String>>;
 }
 
 /*
