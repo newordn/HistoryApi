@@ -16,6 +16,9 @@ type Post{
 type Mutation{
     post(title:String!, description:String!,date:String!,image:Upload!):Post!
 }
+type Subscription{
+    newPost: Post
+}
 `
 module.exports={
     typeDefs
