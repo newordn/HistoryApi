@@ -17,4 +17,5 @@ const server = new GraphQLServer({
     schema,
     context: request=>({...request,prisma,storeUpload})
 })
+
 server.start(()=>console.log("History Api is running on port http://localhost:4000"))
