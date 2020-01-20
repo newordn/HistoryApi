@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregatePost {
+/* GraphQL */ `type AggregateHistory {
+  count: Int!
+}
+
+type AggregatePost {
   count: Int!
 }
 
@@ -13,9 +17,238 @@ type BatchPayload {
 
 scalar DateTime
 
+type History {
+  id: ID!
+  title: String!
+  description: String!
+  from: String!
+  to: String!
+  date: String!
+  posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+}
+
+type HistoryConnection {
+  pageInfo: PageInfo!
+  edges: [HistoryEdge]!
+  aggregate: AggregateHistory!
+}
+
+input HistoryCreateInput {
+  id: ID
+  title: String!
+  description: String!
+  from: String!
+  to: String!
+  date: String!
+  posts: PostCreateManyWithoutBelongToInput
+}
+
+input HistoryCreateOneWithoutPostsInput {
+  create: HistoryCreateWithoutPostsInput
+  connect: HistoryWhereUniqueInput
+}
+
+input HistoryCreateWithoutPostsInput {
+  id: ID
+  title: String!
+  description: String!
+  from: String!
+  to: String!
+  date: String!
+}
+
+type HistoryEdge {
+  node: History!
+  cursor: String!
+}
+
+enum HistoryOrderByInput {
+  id_ASC
+  id_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+  from_ASC
+  from_DESC
+  to_ASC
+  to_DESC
+  date_ASC
+  date_DESC
+}
+
+type HistoryPreviousValues {
+  id: ID!
+  title: String!
+  description: String!
+  from: String!
+  to: String!
+  date: String!
+}
+
+type HistorySubscriptionPayload {
+  mutation: MutationType!
+  node: History
+  updatedFields: [String!]
+  previousValues: HistoryPreviousValues
+}
+
+input HistorySubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: HistoryWhereInput
+  AND: [HistorySubscriptionWhereInput!]
+  OR: [HistorySubscriptionWhereInput!]
+  NOT: [HistorySubscriptionWhereInput!]
+}
+
+input HistoryUpdateInput {
+  title: String
+  description: String
+  from: String
+  to: String
+  date: String
+  posts: PostUpdateManyWithoutBelongToInput
+}
+
+input HistoryUpdateManyMutationInput {
+  title: String
+  description: String
+  from: String
+  to: String
+  date: String
+}
+
+input HistoryUpdateOneWithoutPostsInput {
+  create: HistoryCreateWithoutPostsInput
+  update: HistoryUpdateWithoutPostsDataInput
+  upsert: HistoryUpsertWithoutPostsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: HistoryWhereUniqueInput
+}
+
+input HistoryUpdateWithoutPostsDataInput {
+  title: String
+  description: String
+  from: String
+  to: String
+  date: String
+}
+
+input HistoryUpsertWithoutPostsInput {
+  update: HistoryUpdateWithoutPostsDataInput!
+  create: HistoryCreateWithoutPostsInput!
+}
+
+input HistoryWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  from: String
+  from_not: String
+  from_in: [String!]
+  from_not_in: [String!]
+  from_lt: String
+  from_lte: String
+  from_gt: String
+  from_gte: String
+  from_contains: String
+  from_not_contains: String
+  from_starts_with: String
+  from_not_starts_with: String
+  from_ends_with: String
+  from_not_ends_with: String
+  to: String
+  to_not: String
+  to_in: [String!]
+  to_not_in: [String!]
+  to_lt: String
+  to_lte: String
+  to_gt: String
+  to_gte: String
+  to_contains: String
+  to_not_contains: String
+  to_starts_with: String
+  to_not_starts_with: String
+  to_ends_with: String
+  to_not_ends_with: String
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  posts_every: PostWhereInput
+  posts_some: PostWhereInput
+  posts_none: PostWhereInput
+  AND: [HistoryWhereInput!]
+  OR: [HistoryWhereInput!]
+  NOT: [HistoryWhereInput!]
+}
+
+input HistoryWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createHistory(data: HistoryCreateInput!): History!
+  updateHistory(data: HistoryUpdateInput!, where: HistoryWhereUniqueInput!): History
+  updateManyHistories(data: HistoryUpdateManyMutationInput!, where: HistoryWhereInput): BatchPayload!
+  upsertHistory(where: HistoryWhereUniqueInput!, create: HistoryCreateInput!, update: HistoryUpdateInput!): History!
+  deleteHistory(where: HistoryWhereUniqueInput!): History
+  deleteManyHistories(where: HistoryWhereInput): BatchPayload!
   createPost(data: PostCreateInput!): Post!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
@@ -48,6 +281,7 @@ type Post {
   image: String!
   createdAt: DateTime!
   date: String!
+  belongTo: History
 }
 
 type PostConnection {
@@ -57,6 +291,20 @@ type PostConnection {
 }
 
 input PostCreateInput {
+  id: ID
+  title: String!
+  description: String!
+  image: String!
+  date: String!
+  belongTo: HistoryCreateOneWithoutPostsInput
+}
+
+input PostCreateManyWithoutBelongToInput {
+  create: [PostCreateWithoutBelongToInput!]
+  connect: [PostWhereUniqueInput!]
+}
+
+input PostCreateWithoutBelongToInput {
   id: ID
   title: String!
   description: String!
@@ -93,6 +341,90 @@ type PostPreviousValues {
   date: String!
 }
 
+input PostScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  date: String
+  date_not: String
+  date_in: [String!]
+  date_not_in: [String!]
+  date_lt: String
+  date_lte: String
+  date_gt: String
+  date_gte: String
+  date_contains: String
+  date_not_contains: String
+  date_starts_with: String
+  date_not_starts_with: String
+  date_ends_with: String
+  date_not_ends_with: String
+  AND: [PostScalarWhereInput!]
+  OR: [PostScalarWhereInput!]
+  NOT: [PostScalarWhereInput!]
+}
+
 type PostSubscriptionPayload {
   mutation: MutationType!
   node: Post
@@ -116,6 +448,14 @@ input PostUpdateInput {
   description: String
   image: String
   date: String
+  belongTo: HistoryUpdateOneWithoutPostsInput
+}
+
+input PostUpdateManyDataInput {
+  title: String
+  description: String
+  image: String
+  date: String
 }
 
 input PostUpdateManyMutationInput {
@@ -123,6 +463,41 @@ input PostUpdateManyMutationInput {
   description: String
   image: String
   date: String
+}
+
+input PostUpdateManyWithoutBelongToInput {
+  create: [PostCreateWithoutBelongToInput!]
+  delete: [PostWhereUniqueInput!]
+  connect: [PostWhereUniqueInput!]
+  set: [PostWhereUniqueInput!]
+  disconnect: [PostWhereUniqueInput!]
+  update: [PostUpdateWithWhereUniqueWithoutBelongToInput!]
+  upsert: [PostUpsertWithWhereUniqueWithoutBelongToInput!]
+  deleteMany: [PostScalarWhereInput!]
+  updateMany: [PostUpdateManyWithWhereNestedInput!]
+}
+
+input PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput!
+  data: PostUpdateManyDataInput!
+}
+
+input PostUpdateWithoutBelongToDataInput {
+  title: String
+  description: String
+  image: String
+  date: String
+}
+
+input PostUpdateWithWhereUniqueWithoutBelongToInput {
+  where: PostWhereUniqueInput!
+  data: PostUpdateWithoutBelongToDataInput!
+}
+
+input PostUpsertWithWhereUniqueWithoutBelongToInput {
+  where: PostWhereUniqueInput!
+  update: PostUpdateWithoutBelongToDataInput!
+  create: PostCreateWithoutBelongToInput!
 }
 
 input PostWhereInput {
@@ -204,6 +579,7 @@ input PostWhereInput {
   date_not_starts_with: String
   date_ends_with: String
   date_not_ends_with: String
+  belongTo: HistoryWhereInput
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
   NOT: [PostWhereInput!]
@@ -214,6 +590,9 @@ input PostWhereUniqueInput {
 }
 
 type Query {
+  history(where: HistoryWhereUniqueInput!): History
+  histories(where: HistoryWhereInput, orderBy: HistoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [History]!
+  historiesConnection(where: HistoryWhereInput, orderBy: HistoryOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HistoryConnection!
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
@@ -221,6 +600,7 @@ type Query {
 }
 
 type Subscription {
+  history(where: HistorySubscriptionWhereInput): HistorySubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
 }
 `

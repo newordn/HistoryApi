@@ -5,4 +5,14 @@ type Post{
     image: String!
     createdAt: DateTime! @createdAt
     date:String!
+    belongTo: History @relation(name:"PostHistory")
+}
+type History{
+    id: ID! @id
+    title: String!
+    description:String!
+    from: String!
+    to:String!
+    date:String!
+    posts:[Post!]! @relation(name:"PostHistory")
 }
