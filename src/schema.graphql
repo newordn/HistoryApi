@@ -6,6 +6,7 @@ type Query{
     posts:[Post!]!
     post(id:String!): Post
     histories: [History!]!
+    history(id: ID!): History!
 }
 type Post{
     id: ID!
@@ -25,6 +26,7 @@ type History{
 }
 type Mutation{
     post(title:String!, description:String!,date:String!,image:Upload!):Post!
+    history(title:String!,description:String!,from:String!,to:String!,posts:[Post!]!): History!
 }
 type Subscription{
     newPost: Post

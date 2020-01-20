@@ -13,6 +13,5 @@ type History{
     description:String!
     from: String!
     to:String!
-    date:String!
     posts:[Post!]! @relation(name:"PostHistory")
 }

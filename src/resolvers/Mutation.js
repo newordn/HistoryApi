@@ -1,10 +1,20 @@
 
 const post = async (parent,args,context,info)=>{
     const image = await context.storeUpload(args.image)
-    const post = context.prisma.createPost({...args,image:image.path})
+    const post = await context.prisma.createPost({...args,image:image.path})
     return post
+}
+const history = async (parent,args,context,info)=>{
+    let images =  await Promise.all(args.posts.map(async v=>await context.storeUpload(v.image)))
+    images = images.map(v=>v.path)
+    let posts = args.posts.map((v,i)=>({...v,image:images[i]}))
+    const history = await context.prisma.createHistory({...args,posts:{
+        create:posts
+    }})
+    return history
 }
 
 module.exports={
-    post
+    post,
+    history
 }

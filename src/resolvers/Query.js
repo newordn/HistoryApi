@@ -12,10 +12,15 @@ const histories = async (parent,args,context,info)=>{
     const histories = await context.prisma.histories({orderBy:'id_DESC'})
     return histories
 }
+const history = async (parent,args,context,info)=>{
+    const history = await context.prisma.history({id:args.id})
+    return history
+}
 
 module.exports={
     info,
     posts,
     post,
-    histories
+    histories,
+    history
 }
