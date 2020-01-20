@@ -24,9 +24,15 @@ type History{
     to:String!
     posts:[Post!]!
 }
+input PostInput{
+    title: String!
+    description:String!
+    image:String!
+    date:String!
+}
 type Mutation{
     post(title:String!, description:String!,date:String!,image:Upload!):Post!
-    history(title:String!,description:String!,from:String!,to:String!,posts:[Post!]!): History!
+    history(title:String!,description:String!,from:String!,to:String!,posts:[PostInput!]!): History!
 }
 type Subscription{
     newPost: Post

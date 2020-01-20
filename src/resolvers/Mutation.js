@@ -1,4 +1,3 @@
-
 const post = async (parent,args,context,info)=>{
     const image = await context.storeUpload(args.image)
     const post = await context.prisma.createPost({...args,image:image.path})
