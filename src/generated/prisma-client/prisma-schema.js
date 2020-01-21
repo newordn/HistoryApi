@@ -23,7 +23,7 @@ type History {
   description: String!
   from: String!
   to: String!
-  date: String!
+  createdAt: DateTime!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
 }
 
@@ -39,7 +39,6 @@ input HistoryCreateInput {
   description: String!
   from: String!
   to: String!
-  date: String!
   posts: PostCreateManyWithoutBelongToInput
 }
 
@@ -54,7 +53,6 @@ input HistoryCreateWithoutPostsInput {
   description: String!
   from: String!
   to: String!
-  date: String!
 }
 
 type HistoryEdge {
@@ -73,8 +71,8 @@ enum HistoryOrderByInput {
   from_DESC
   to_ASC
   to_DESC
-  date_ASC
-  date_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type HistoryPreviousValues {
@@ -83,7 +81,7 @@ type HistoryPreviousValues {
   description: String!
   from: String!
   to: String!
-  date: String!
+  createdAt: DateTime!
 }
 
 type HistorySubscriptionPayload {
@@ -109,7 +107,6 @@ input HistoryUpdateInput {
   description: String
   from: String
   to: String
-  date: String
   posts: PostUpdateManyWithoutBelongToInput
 }
 
@@ -118,7 +115,6 @@ input HistoryUpdateManyMutationInput {
   description: String
   from: String
   to: String
-  date: String
 }
 
 input HistoryUpdateOneWithoutPostsInput {
@@ -135,7 +131,6 @@ input HistoryUpdateWithoutPostsDataInput {
   description: String
   from: String
   to: String
-  date: String
 }
 
 input HistoryUpsertWithoutPostsInput {
@@ -214,20 +209,14 @@ input HistoryWhereInput {
   to_not_starts_with: String
   to_ends_with: String
   to_not_ends_with: String
-  date: String
-  date_not: String
-  date_in: [String!]
-  date_not_in: [String!]
-  date_lt: String
-  date_lte: String
-  date_gt: String
-  date_gte: String
-  date_contains: String
-  date_not_contains: String
-  date_starts_with: String
-  date_not_starts_with: String
-  date_ends_with: String
-  date_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput

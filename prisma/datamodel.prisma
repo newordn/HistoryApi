@@ -13,5 +13,6 @@ type History{
     description:String!
     from: String!
     to:String!
-    posts:[Post!]! @relation(name:"PostHistory")
+    createdAt: DateTime! @createdAt
+    posts:[Post!] @relation(name:"PostHistory")
 }

@@ -5,13 +5,16 @@ const post = async (parent,args,context,info)=>{
 }
 const history = async (parent,args,context,info)=>{
     let history
-    let images =  await Promise.all(args.posts.map(async v=>await context.storeUpload(v.image)))
-    images = images.map(v=>v.path)
-    let posts = args.posts.map((v,i)=>({...v,image:images[i]}))
-    if(posts.length>0)
-     history = await context.prisma.createHistory({...args,posts:{
+    if(args.posts!==null)
+    {
+        
+     let images =  await Promise.all(args.posts.map(async v=>await context.storeUpload(v.image)))
+        images = images.map(v=>v.path)
+        let posts = args.posts.map((v,i)=>({...v,image:images[i]}))
+        history = await context.prisma.createHistory({...args,posts:{
         create:posts
-    }})
+        }})
+    }
     else
      history = await context.prisma.createHistory({...args})
     return history

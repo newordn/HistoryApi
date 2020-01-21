@@ -165,8 +165,8 @@ export type HistoryOrderByInput =
   | "from_DESC"
   | "to_ASC"
   | "to_DESC"
-  | "date_ASC"
-  | "date_DESC";
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -196,105 +196,11 @@ export type HistoryWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface PostCreateInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  image: String;
-  date: String;
-  belongTo?: Maybe<HistoryCreateOneWithoutPostsInput>;
-}
-
-export interface PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput;
-  data: PostUpdateManyDataInput;
-}
-
-export interface HistoryUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  from?: Maybe<String>;
-  to?: Maybe<String>;
-  date?: Maybe<String>;
-}
-
 export interface PostUpdateWithoutBelongToDataInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
   image?: Maybe<String>;
   date?: Maybe<String>;
-}
-
-export interface PostSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<PostWhereInput>;
-  AND?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
-  OR?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
-  NOT?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
-}
-
-export interface PostUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  date?: Maybe<String>;
-}
-
-export interface HistoryCreateInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  from: String;
-  to: String;
-  date: String;
-  posts?: Maybe<PostCreateManyWithoutBelongToInput>;
-}
-
-export interface HistoryUpdateWithoutPostsDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  from?: Maybe<String>;
-  to?: Maybe<String>;
-  date?: Maybe<String>;
-}
-
-export interface PostCreateManyWithoutBelongToInput {
-  create?: Maybe<
-    PostCreateWithoutBelongToInput[] | PostCreateWithoutBelongToInput
-  >;
-  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-}
-
-export interface PostUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  date?: Maybe<String>;
-  belongTo?: Maybe<HistoryUpdateOneWithoutPostsInput>;
-}
-
-export interface PostCreateWithoutBelongToInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  image: String;
-  date: String;
-}
-
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface HistoryUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  from?: Maybe<String>;
-  to?: Maybe<String>;
-  date?: Maybe<String>;
-  posts?: Maybe<PostUpdateManyWithoutBelongToInput>;
 }
 
 export interface PostWhereInput {
@@ -382,16 +288,104 @@ export interface PostWhereInput {
   NOT?: Maybe<PostWhereInput[] | PostWhereInput>;
 }
 
-export interface PostUpdateManyDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  date?: Maybe<String>;
+export interface PostCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  image: String;
+  date: String;
+  belongTo?: Maybe<HistoryCreateOneWithoutPostsInput>;
+}
+
+export interface PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput;
+  data: PostUpdateManyDataInput;
+}
+
+export interface PostUpsertWithWhereUniqueWithoutBelongToInput {
+  where: PostWhereUniqueInput;
+  update: PostUpdateWithoutBelongToDataInput;
+  create: PostCreateWithoutBelongToInput;
+}
+
+export interface HistorySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<HistoryWhereInput>;
+  AND?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
+  OR?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
+  NOT?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
+}
+
+export interface HistoryCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  from: String;
+  to: String;
+  posts?: Maybe<PostCreateManyWithoutBelongToInput>;
 }
 
 export interface HistoryUpsertWithoutPostsInput {
   update: HistoryUpdateWithoutPostsDataInput;
   create: HistoryCreateWithoutPostsInput;
+}
+
+export interface PostCreateManyWithoutBelongToInput {
+  create?: Maybe<
+    PostCreateWithoutBelongToInput[] | PostCreateWithoutBelongToInput
+  >;
+  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+}
+
+export interface HistoryUpdateOneWithoutPostsInput {
+  create?: Maybe<HistoryCreateWithoutPostsInput>;
+  update?: Maybe<HistoryUpdateWithoutPostsDataInput>;
+  upsert?: Maybe<HistoryUpsertWithoutPostsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<HistoryWhereUniqueInput>;
+}
+
+export interface PostCreateWithoutBelongToInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  image: String;
+  date: String;
+}
+
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface HistoryUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  from?: Maybe<String>;
+  to?: Maybe<String>;
+  posts?: Maybe<PostUpdateManyWithoutBelongToInput>;
+}
+
+export interface HistoryCreateOneWithoutPostsInput {
+  create?: Maybe<HistoryCreateWithoutPostsInput>;
+  connect?: Maybe<HistoryWhereUniqueInput>;
+}
+
+export interface HistoryUpdateManyMutationInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  from?: Maybe<String>;
+  to?: Maybe<String>;
+}
+
+export interface PostUpdateManyMutationInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  date?: Maybe<String>;
 }
 
 export interface PostScalarWhereInput {
@@ -478,10 +472,11 @@ export interface PostScalarWhereInput {
   NOT?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
 }
 
-export interface PostUpsertWithWhereUniqueWithoutBelongToInput {
-  where: PostWhereUniqueInput;
-  update: PostUpdateWithoutBelongToDataInput;
-  create: PostCreateWithoutBelongToInput;
+export interface PostUpdateManyDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  date?: Maybe<String>;
 }
 
 export interface HistoryWhereInput {
@@ -555,20 +550,14 @@ export interface HistoryWhereInput {
   to_not_starts_with?: Maybe<String>;
   to_ends_with?: Maybe<String>;
   to_not_ends_with?: Maybe<String>;
-  date?: Maybe<String>;
-  date_not?: Maybe<String>;
-  date_in?: Maybe<String[] | String>;
-  date_not_in?: Maybe<String[] | String>;
-  date_lt?: Maybe<String>;
-  date_lte?: Maybe<String>;
-  date_gt?: Maybe<String>;
-  date_gte?: Maybe<String>;
-  date_contains?: Maybe<String>;
-  date_not_contains?: Maybe<String>;
-  date_starts_with?: Maybe<String>;
-  date_not_starts_with?: Maybe<String>;
-  date_ends_with?: Maybe<String>;
-  date_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
   posts_every?: Maybe<PostWhereInput>;
   posts_some?: Maybe<PostWhereInput>;
   posts_none?: Maybe<PostWhereInput>;
@@ -582,29 +571,22 @@ export interface PostUpdateWithWhereUniqueWithoutBelongToInput {
   data: PostUpdateWithoutBelongToDataInput;
 }
 
-export interface HistoryUpdateOneWithoutPostsInput {
-  create?: Maybe<HistoryCreateWithoutPostsInput>;
-  update?: Maybe<HistoryUpdateWithoutPostsDataInput>;
-  upsert?: Maybe<HistoryUpsertWithoutPostsInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<HistoryWhereUniqueInput>;
+export interface HistoryUpdateWithoutPostsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  from?: Maybe<String>;
+  to?: Maybe<String>;
 }
 
-export interface HistorySubscriptionWhereInput {
+export interface PostSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<HistoryWhereInput>;
-  AND?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
-  OR?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
-  NOT?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
-}
-
-export interface HistoryCreateOneWithoutPostsInput {
-  create?: Maybe<HistoryCreateWithoutPostsInput>;
-  connect?: Maybe<HistoryWhereUniqueInput>;
+  node?: Maybe<PostWhereInput>;
+  AND?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
+  OR?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
+  NOT?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
 }
 
 export interface HistoryCreateWithoutPostsInput {
@@ -613,7 +595,14 @@ export interface HistoryCreateWithoutPostsInput {
   description: String;
   from: String;
   to: String;
-  date: String;
+}
+
+export interface PostUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  date?: Maybe<String>;
+  belongTo?: Maybe<HistoryUpdateOneWithoutPostsInput>;
 }
 
 export interface NodeNode {
@@ -668,150 +657,29 @@ export interface HistoryEdgeSubscription
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface History {
-  id: ID_Output;
-  title: String;
-  description: String;
-  from: String;
-  to: String;
-  date: String;
-}
-
-export interface HistoryPromise extends Promise<History>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  from: () => Promise<String>;
-  to: () => Promise<String>;
-  date: () => Promise<String>;
-  posts: <T = FragmentableArray<Post>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface HistorySubscription
-  extends Promise<AsyncIterator<History>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  from: () => Promise<AsyncIterator<String>>;
-  to: () => Promise<AsyncIterator<String>>;
-  date: () => Promise<AsyncIterator<String>>;
-  posts: <T = Promise<AsyncIterator<PostSubscription>>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface HistoryNullablePromise
-  extends Promise<History | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  from: () => Promise<String>;
-  to: () => Promise<String>;
-  date: () => Promise<String>;
-  posts: <T = FragmentableArray<Post>>(args?: {
-    where?: PostWhereInput;
-    orderBy?: PostOrderByInput;
-    skip?: Int;
-    after?: String;
-    before?: String;
-    first?: Int;
-    last?: Int;
-  }) => T;
-}
-
-export interface HistoryPreviousValues {
-  id: ID_Output;
-  title: String;
-  description: String;
-  from: String;
-  to: String;
-  date: String;
-}
-
-export interface HistoryPreviousValuesPromise
-  extends Promise<HistoryPreviousValues>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  title: () => Promise<String>;
-  description: () => Promise<String>;
-  from: () => Promise<String>;
-  to: () => Promise<String>;
-  date: () => Promise<String>;
-}
-
-export interface HistoryPreviousValuesSubscription
-  extends Promise<AsyncIterator<HistoryPreviousValues>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  title: () => Promise<AsyncIterator<String>>;
-  description: () => Promise<AsyncIterator<String>>;
-  from: () => Promise<AsyncIterator<String>>;
-  to: () => Promise<AsyncIterator<String>>;
-  date: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PageInfo {
-  hasNextPage: Boolean;
-  hasPreviousPage: Boolean;
-  startCursor?: String;
-  endCursor?: String;
-}
-
-export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
-  hasNextPage: () => Promise<Boolean>;
-  hasPreviousPage: () => Promise<Boolean>;
-  startCursor: () => Promise<String>;
-  endCursor: () => Promise<String>;
-}
-
-export interface PageInfoSubscription
-  extends Promise<AsyncIterator<PageInfo>>,
-    Fragmentable {
-  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
-  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
-  startCursor: () => Promise<AsyncIterator<String>>;
-  endCursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostSubscriptionPayload {
+export interface HistorySubscriptionPayload {
   mutation: MutationType;
-  node: Post;
+  node: History;
   updatedFields: String[];
-  previousValues: PostPreviousValues;
+  previousValues: HistoryPreviousValues;
 }
 
-export interface PostSubscriptionPayloadPromise
-  extends Promise<PostSubscriptionPayload>,
+export interface HistorySubscriptionPayloadPromise
+  extends Promise<HistorySubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = PostPromise>() => T;
+  node: <T = HistoryPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostPreviousValuesPromise>() => T;
+  previousValues: <T = HistoryPreviousValuesPromise>() => T;
 }
 
-export interface PostSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
+export interface HistorySubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<HistorySubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostSubscription>() => T;
+  node: <T = HistorySubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostPreviousValuesSubscription>() => T;
+  previousValues: <T = HistoryPreviousValuesSubscription>() => T;
 }
 
 export interface Post {
@@ -857,29 +725,127 @@ export interface PostNullablePromise
   belongTo: <T = HistoryPromise>() => T;
 }
 
-export interface HistorySubscriptionPayload {
+export interface PostSubscriptionPayload {
   mutation: MutationType;
-  node: History;
+  node: Post;
   updatedFields: String[];
-  previousValues: HistoryPreviousValues;
+  previousValues: PostPreviousValues;
 }
 
-export interface HistorySubscriptionPayloadPromise
-  extends Promise<HistorySubscriptionPayload>,
+export interface PostSubscriptionPayloadPromise
+  extends Promise<PostSubscriptionPayload>,
     Fragmentable {
   mutation: () => Promise<MutationType>;
-  node: <T = HistoryPromise>() => T;
+  node: <T = PostPromise>() => T;
   updatedFields: () => Promise<String[]>;
-  previousValues: <T = HistoryPreviousValuesPromise>() => T;
+  previousValues: <T = PostPreviousValuesPromise>() => T;
 }
 
-export interface HistorySubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<HistorySubscriptionPayload>>,
+export interface PostSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
     Fragmentable {
   mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = HistorySubscription>() => T;
+  node: <T = PostSubscription>() => T;
   updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = HistoryPreviousValuesSubscription>() => T;
+  previousValues: <T = PostPreviousValuesSubscription>() => T;
+}
+
+export interface History {
+  id: ID_Output;
+  title: String;
+  description: String;
+  from: String;
+  to: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface HistoryPromise extends Promise<History>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  from: () => Promise<String>;
+  to: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  posts: <T = FragmentableArray<Post>>(args?: {
+    where?: PostWhereInput;
+    orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface HistorySubscription
+  extends Promise<AsyncIterator<History>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  from: () => Promise<AsyncIterator<String>>;
+  to: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  posts: <T = Promise<AsyncIterator<PostSubscription>>>(args?: {
+    where?: PostWhereInput;
+    orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface HistoryNullablePromise
+  extends Promise<History | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  from: () => Promise<String>;
+  to: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  posts: <T = FragmentableArray<Post>>(args?: {
+    where?: PostWhereInput;
+    orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface HistoryPreviousValues {
+  id: ID_Output;
+  title: String;
+  description: String;
+  from: String;
+  to: String;
+  createdAt: DateTimeOutput;
+}
+
+export interface HistoryPreviousValuesPromise
+  extends Promise<HistoryPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  title: () => Promise<String>;
+  description: () => Promise<String>;
+  from: () => Promise<String>;
+  to: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+}
+
+export interface HistoryPreviousValuesSubscription
+  extends Promise<AsyncIterator<HistoryPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  title: () => Promise<AsyncIterator<String>>;
+  description: () => Promise<AsyncIterator<String>>;
+  from: () => Promise<AsyncIterator<String>>;
+  to: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface HistoryConnection {
@@ -903,6 +869,29 @@ export interface HistoryConnectionSubscription
   aggregate: <T = AggregateHistorySubscription>() => T;
 }
 
+export interface PageInfo {
+  hasNextPage: Boolean;
+  hasPreviousPage: Boolean;
+  startCursor?: String;
+  endCursor?: String;
+}
+
+export interface PageInfoPromise extends Promise<PageInfo>, Fragmentable {
+  hasNextPage: () => Promise<Boolean>;
+  hasPreviousPage: () => Promise<Boolean>;
+  startCursor: () => Promise<String>;
+  endCursor: () => Promise<String>;
+}
+
+export interface PageInfoSubscription
+  extends Promise<AsyncIterator<PageInfo>>,
+    Fragmentable {
+  hasNextPage: () => Promise<AsyncIterator<Boolean>>;
+  hasPreviousPage: () => Promise<AsyncIterator<Boolean>>;
+  startCursor: () => Promise<AsyncIterator<String>>;
+  endCursor: () => Promise<AsyncIterator<String>>;
+}
+
 export interface AggregatePost {
   count: Int;
 }
@@ -917,23 +906,6 @@ export interface AggregatePostSubscription
   extends Promise<AsyncIterator<AggregatePost>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface PostEdge {
-  node: Post;
-  cursor: String;
-}
-
-export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
-  node: <T = PostPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface PostEdgeSubscription
-  extends Promise<AsyncIterator<PostEdge>>,
-    Fragmentable {
-  node: <T = PostSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
 }
 
 export interface BatchPayload {
@@ -989,6 +961,28 @@ export interface PostConnectionSubscription
   aggregate: <T = AggregatePostSubscription>() => T;
 }
 
+export interface PostEdge {
+  node: Post;
+  cursor: String;
+}
+
+export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
+  node: <T = PostPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostEdgeSubscription
+  extends Promise<AsyncIterator<PostEdge>>,
+    Fragmentable {
+  node: <T = PostSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
 /*
 DateTime scalar input type, allowing Date
 */
@@ -1000,22 +994,17 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
-The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
-*/
-export type ID_Input = string | number;
-export type ID_Output = string;
-
-export type Long = string;
-
-/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
 
+export type Long = string;
+
 /*
-The `Boolean` scalar type represents `true` or `false`.
+The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
-export type Boolean = boolean;
+export type ID_Input = string | number;
+export type ID_Output = string;
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
