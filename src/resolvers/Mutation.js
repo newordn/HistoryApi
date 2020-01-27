@@ -4,6 +4,7 @@ const post = async (parent,args,context,info)=>{
     return post
 }
 const history = async (parent,args,context,info)=>{
+    console.log("History Mutation")
     let history
     if(args.posts!==null)
     {
