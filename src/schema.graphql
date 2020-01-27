@@ -27,7 +27,7 @@ type History{
 input PostInput{
     title: String!
     description:String!
-    image:String!
+    image:Upload!
     date:String!
 }
 type Mutation{
