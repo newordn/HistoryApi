@@ -15,6 +15,7 @@ type Post{
     image:String!
     date:String!
     belongTo: History
+    comments: [Comment]
 }
 type History{
     id: ID!
@@ -30,9 +31,29 @@ input PostInput{
     image:Upload!
     date:String!
 }
+type User{
+    id: ID!
+    email: String! 
+    phone: String!
+    password: String!
+    comments: [Comment!]!   
+}
+type Comment{
+    id: ID!
+    content: String! 
+    author: User! 
+    onPost: Post
+}
 type Mutation{
     post(title:String!, description:String!,date:String!,image:Upload!):Post!
     history(title:String!,description:String!,from:String!,to:String!,posts:[PostInput!]): History!
+    signUp(email:String!,phone:String!,password:String!): AuthPayload!
+    signIn(phone:String!,password:String!): AuthPayload!
+    comment(content:String!,onPost:ID!): Comment!
+}
+type AuthPayload{
+    token: String
+    user: User
 }
 type Subscription{
     newPost: Post

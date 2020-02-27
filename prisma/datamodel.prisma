@@ -6,6 +6,7 @@ type Post{
     createdAt: DateTime! @createdAt
     date:String!
     belongTo: History @relation(name:"PostHistory")
+    comments: [Comment!]! @relation(name:"CommentPost")
 }
 type History{
     id: ID! @id
@@ -15,4 +16,17 @@ type History{
     to:String!
     createdAt: DateTime! @createdAt
     posts:[Post!] @relation(name:"PostHistory")
+}
+type User{
+    id: ID! @id
+    email: String! @unique
+    phone: String! @unique
+    password: String!
+    comments: [Comment!]! @relation(name:"CommentUser")
+}
+type Comment{
+    id: ID! @id
+    content: String! 
+    author: User! @relation(name:"CommentUser")  
+    onPost: Post @relation(name:"CommentPost")
 }

@@ -3,6 +3,9 @@ const Query = require('./resolvers/Query')
 const Mutation = require('./resolvers/Mutation')
 const Subscription = require('./resolvers/Subscription')
 const History = require('./resolvers/History')
+const User = require('./resolvers/User')
+const Comment = require('./resolvers/Comment')
+const Post = require('./resolvers/Post')
 const {prisma} = require('./generated/prisma-client')
 const {storeUpload} = require('./helpers/upload')
 const {GraphQLUpload}= require('graphql-upload')
@@ -14,6 +17,9 @@ const resolvers = {
     Mutation,
     Subscription,
     History,
+    User,
+    Comment,
+    Post,
     Upload: GraphQLUpload   
 }
 const schema = makeExecutableSchema({typeDefs,resolvers})
