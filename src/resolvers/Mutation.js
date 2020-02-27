@@ -59,10 +59,19 @@ const comment = async (parent,args,context,info)=>{
  return comment
 }
 
+const like = async (parent,args,context,info)=>{
+    console.log('like mutation')
+    const userId = getUserId(context)
+    const postId = args.onPost
+ const like = await context.prisma.createLike({...args,onPost:{connect:{id:postId}},author:{connect:{id:userId}}})
+ return like
+}
+
 module.exports={
     post,
     history,
     signUp,
     signIn,
-    comment
+    comment,
+    like
 }

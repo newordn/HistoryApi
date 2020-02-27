@@ -16,6 +16,7 @@ type Post{
     date:String!
     belongTo: History
     comments: [Comment]
+    likes: [Like!]!
 }
 type History{
     id: ID!
@@ -36,7 +37,8 @@ type User{
     email: String! 
     phone: String!
     password: String!
-    comments: [Comment!]!   
+    comments: [Comment!]!
+    likes: [Like!]!  
 }
 type Comment{
     id: ID!
@@ -50,6 +52,7 @@ type Mutation{
     signUp(email:String!,phone:String!,password:String!): AuthPayload!
     signIn(phone:String!,password:String!): AuthPayload!
     comment(content:String!,onPost:ID!): Comment!
+    like(onPost: ID!):Like!
 }
 type AuthPayload{
     token: String
@@ -57,6 +60,12 @@ type AuthPayload{
 }
 type Subscription{
     newPost: Post
+}
+
+type Like{
+    id: ID!
+    author: User! 
+    onPost: Post!
 }
 `
 module.exports={

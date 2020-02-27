@@ -7,6 +7,7 @@ type Post{
     date:String!
     belongTo: History @relation(name:"PostHistory")
     comments: [Comment!]! @relation(name:"CommentPost")
+    likes: [Like!]! @relation(name:"LikePost")
 }
 type History{
     id: ID! @id
@@ -23,10 +24,16 @@ type User{
     phone: String! @unique
     password: String!
     comments: [Comment!]! @relation(name:"CommentUser")
+    likes: [Like!]! @relation(name:"LikeUser")
 }
 type Comment{
     id: ID! @id
     content: String! 
     author: User! @relation(name:"CommentUser")  
     onPost: Post @relation(name:"CommentPost")
+}
+type Like{
+    id: ID! @id
+    author: User ! @relation(name:"LikeUser")
+    onPost: Post @relation(name:"LikePost")
 }
