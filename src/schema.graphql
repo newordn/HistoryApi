@@ -7,6 +7,7 @@ type Query{
     post(id:String!): Post
     histories: [History!]!
     history(id: ID!): History!
+    commentsByPost(postId: ID!): [Comment!]!
 }
 type Post{
     id: ID!
@@ -34,6 +35,7 @@ input PostInput{
 }
 type User{
     id: ID!
+    name:String
     email: String! 
     phone: String!
     password: String!
@@ -49,7 +51,7 @@ type Comment{
 type Mutation{
     post(title:String!, description:String!,date:String!,image:Upload!):Post!
     history(title:String!,description:String!,from:String!,to:String!,posts:[PostInput!]): History!
-    signUp(email:String!,phone:String!,password:String!): AuthPayload!
+    signUp(name:String!,email:String!,phone:String!,password:String!): AuthPayload!
     signIn(phone:String!,password:String!): AuthPayload!
     comment(content:String!,onPost:ID!): Comment!
     like(onPost: ID!):Like!

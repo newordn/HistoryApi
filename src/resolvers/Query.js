@@ -20,11 +20,17 @@ const history = async (parent,args,context,info)=>{
     const history = await context.prisma.history({id:args.id})
     return history
 }
+const commentsByPost = async (parent,args,context,info)=>{
+    console.log('comments by post query')
+    const comments = await context.prisma.post({id:args.postId}).comments({orderBy:'id_DESC'})
+    return comments
+}
 
 module.exports={
     info,
     posts,
     post,
     histories,
-    history
+    history,
+    commentsByPost
 }

@@ -292,6 +292,8 @@ export type HistoryOrderByInput =
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
   | "email_ASC"
   | "email_DESC"
   | "phone_ASC"
@@ -546,6 +548,7 @@ export interface CommentUpdateWithoutOnPostDataInput {
 
 export interface UserCreateWithoutLikesInput {
   id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
   email: String;
   phone: String;
   password: String;
@@ -630,6 +633,7 @@ export interface CommentUpdateInput {
 }
 
 export interface UserUpdateInput {
+  name?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
   password?: Maybe<String>;
@@ -649,6 +653,7 @@ export type HistoryWhereUniqueInput = AtLeastOne<{
 }>;
 
 export interface UserUpdateWithoutCommentsDataInput {
+  name?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
   password?: Maybe<String>;
@@ -850,6 +855,20 @@ export interface UserWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
   email?: Maybe<String>;
   email_not?: Maybe<String>;
   email_in?: Maybe<String[] | String>;
@@ -991,6 +1010,7 @@ export interface PostUpsertWithoutLikesInput {
 }
 
 export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
   password?: Maybe<String>;
@@ -1093,6 +1113,7 @@ export interface LikeUpdateManyWithoutOnPostInput {
 
 export interface UserCreateWithoutCommentsInput {
   id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
   email: String;
   phone: String;
   password: String;
@@ -1143,6 +1164,7 @@ export interface UserSubscriptionWhereInput {
 }
 
 export interface UserUpdateWithoutLikesDataInput {
+  name?: Maybe<String>;
   email?: Maybe<String>;
   phone?: Maybe<String>;
   password?: Maybe<String>;
@@ -1151,6 +1173,7 @@ export interface UserUpdateWithoutLikesDataInput {
 
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
   email: String;
   phone: String;
   password: String;
@@ -1371,6 +1394,7 @@ export interface NodeNode {
 
 export interface UserPreviousValues {
   id: ID_Output;
+  name?: String;
   email: String;
   phone: String;
   password: String;
@@ -1380,6 +1404,7 @@ export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
   password: () => Promise<String>;
@@ -1389,6 +1414,7 @@ export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
@@ -1514,6 +1540,7 @@ export interface PostNullablePromise
 
 export interface User {
   id: ID_Output;
+  name?: String;
   email: String;
   phone: String;
   password: String;
@@ -1521,6 +1548,7 @@ export interface User {
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
   password: () => Promise<String>;
@@ -1548,6 +1576,7 @@ export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
   phone: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
@@ -1575,6 +1604,7 @@ export interface UserNullablePromise
   extends Promise<User | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  name: () => Promise<String>;
   email: () => Promise<String>;
   phone: () => Promise<String>;
   password: () => Promise<String>;
