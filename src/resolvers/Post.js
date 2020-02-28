@@ -1,5 +1,5 @@
 const comments = async (parent,args,context,info)=>{
-    const comments = await context.prisma.post({id:parent.id}).comments({orderBy:'id_DESC'})
+    const comments = await context.prisma.post({id:parent.id}).comments({orderBy:'id_DESC',first:1})
     return comments
 }
 const likes= async (parent,args,context,info)=>{
