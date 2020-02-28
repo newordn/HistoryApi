@@ -32,6 +32,7 @@ type Comment{
     content: String! 
     author: User! @relation(name:"CommentUser")  
     onPost: Post @relation(name:"CommentPost")
+    createdAt: DateTime! @createdAt
 }
 type Like{
     id: ID! @id

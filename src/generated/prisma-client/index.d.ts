@@ -257,7 +257,9 @@ export type CommentOrderByInput =
   | "id_ASC"
   | "id_DESC"
   | "content_ASC"
-  | "content_DESC";
+  | "content_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC";
 
 export type LikeOrderByInput = "id_ASC" | "id_DESC";
 
@@ -604,6 +606,14 @@ export interface CommentWhereInput {
   content_not_ends_with?: Maybe<String>;
   author?: Maybe<UserWhereInput>;
   onPost?: Maybe<PostWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   OR?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   NOT?: Maybe<CommentWhereInput[] | CommentWhereInput>;
@@ -969,6 +979,14 @@ export interface CommentScalarWhereInput {
   content_not_starts_with?: Maybe<String>;
   content_ends_with?: Maybe<String>;
   content_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
   OR?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
   NOT?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
@@ -1819,6 +1837,7 @@ export interface PostEdgeSubscription
 export interface Comment {
   id: ID_Output;
   content: String;
+  createdAt: DateTimeOutput;
 }
 
 export interface CommentPromise extends Promise<Comment>, Fragmentable {
@@ -1826,6 +1845,7 @@ export interface CommentPromise extends Promise<Comment>, Fragmentable {
   content: () => Promise<String>;
   author: <T = UserPromise>() => T;
   onPost: <T = PostPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface CommentSubscription
@@ -1835,6 +1855,7 @@ export interface CommentSubscription
   content: () => Promise<AsyncIterator<String>>;
   author: <T = UserSubscription>() => T;
   onPost: <T = PostSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface CommentNullablePromise
@@ -1844,6 +1865,7 @@ export interface CommentNullablePromise
   content: () => Promise<String>;
   author: <T = UserPromise>() => T;
   onPost: <T = PostPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface AggregateLike {
@@ -1911,6 +1933,7 @@ export interface LikeConnectionSubscription
 export interface CommentPreviousValues {
   id: ID_Output;
   content: String;
+  createdAt: DateTimeOutput;
 }
 
 export interface CommentPreviousValuesPromise
@@ -1918,6 +1941,7 @@ export interface CommentPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   content: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
 }
 
 export interface CommentPreviousValuesSubscription
@@ -1925,6 +1949,7 @@ export interface CommentPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   content: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface HistoryEdge {

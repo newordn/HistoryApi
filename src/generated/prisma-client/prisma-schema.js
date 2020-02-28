@@ -32,6 +32,7 @@ type Comment {
   content: String!
   author: User!
   onPost: Post
+  createdAt: DateTime!
 }
 
 type CommentConnection {
@@ -79,11 +80,14 @@ enum CommentOrderByInput {
   id_DESC
   content_ASC
   content_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type CommentPreviousValues {
   id: ID!
   content: String!
+  createdAt: DateTime!
 }
 
 input CommentScalarWhereInput {
@@ -115,6 +119,14 @@ input CommentScalarWhereInput {
   content_not_starts_with: String
   content_ends_with: String
   content_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [CommentScalarWhereInput!]
   OR: [CommentScalarWhereInput!]
   NOT: [CommentScalarWhereInput!]
@@ -244,6 +256,14 @@ input CommentWhereInput {
   content_not_ends_with: String
   author: UserWhereInput
   onPost: PostWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [CommentWhereInput!]
   OR: [CommentWhereInput!]
   NOT: [CommentWhereInput!]
