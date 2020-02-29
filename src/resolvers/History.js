@@ -5,7 +5,12 @@ const comments = async (parent,args,context,info)=>{
 const posts = async (parent,args,context,info)=>{
     return await context.prisma.history({id:parent.id}).posts()
 }
+const likes= async (parent,args,context,info)=>{
+    const likes = await context.prisma.history({id:parent.id}).likes()
+    return likes
+}
 module.exports={
     posts,
-    comments
+    comments,
+    likes
 }

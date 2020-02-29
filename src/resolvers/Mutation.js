@@ -73,6 +73,13 @@ const like = async (parent,args,context,info)=>{
  const like = await context.prisma.createLike({...args,onPost:{connect:{id:postId}},author:{connect:{id:userId}}})
  return like
 }
+const likeOnHistory = async (parent,args,context,info)=>{
+    console.log('like a history mutation')
+    const userId = getUserId(context)
+    const historyId = args.onHistory
+ const like = await context.prisma.createLike({...args,onHistory:{connect:{id:historyId}},author:{connect:{id:userId}}})
+ return like
+}
 
 module.exports={
     post,
@@ -81,5 +88,6 @@ module.exports={
     signIn,
     comment,
     like,
-    commentOnHistory
+    commentOnHistory,
+    likeOnHistory
 }

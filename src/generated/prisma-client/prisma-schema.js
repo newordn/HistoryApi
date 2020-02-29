@@ -333,6 +333,7 @@ type History {
   createdAt: DateTime!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
+  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
 }
 
 type HistoryConnection {
@@ -349,10 +350,16 @@ input HistoryCreateInput {
   to: String!
   posts: PostCreateManyWithoutBelongToInput
   comments: CommentCreateManyWithoutOnHistoryInput
+  likes: LikeCreateManyWithoutOnHistoryInput
 }
 
 input HistoryCreateOneWithoutCommentsInput {
   create: HistoryCreateWithoutCommentsInput
+  connect: HistoryWhereUniqueInput
+}
+
+input HistoryCreateOneWithoutLikesInput {
+  create: HistoryCreateWithoutLikesInput
   connect: HistoryWhereUniqueInput
 }
 
@@ -368,6 +375,17 @@ input HistoryCreateWithoutCommentsInput {
   from: String!
   to: String!
   posts: PostCreateManyWithoutBelongToInput
+  likes: LikeCreateManyWithoutOnHistoryInput
+}
+
+input HistoryCreateWithoutLikesInput {
+  id: ID
+  title: String!
+  description: String!
+  from: String!
+  to: String!
+  posts: PostCreateManyWithoutBelongToInput
+  comments: CommentCreateManyWithoutOnHistoryInput
 }
 
 input HistoryCreateWithoutPostsInput {
@@ -377,6 +395,7 @@ input HistoryCreateWithoutPostsInput {
   from: String!
   to: String!
   comments: CommentCreateManyWithoutOnHistoryInput
+  likes: LikeCreateManyWithoutOnHistoryInput
 }
 
 type HistoryEdge {
@@ -433,6 +452,7 @@ input HistoryUpdateInput {
   to: String
   posts: PostUpdateManyWithoutBelongToInput
   comments: CommentUpdateManyWithoutOnHistoryInput
+  likes: LikeUpdateManyWithoutOnHistoryInput
 }
 
 input HistoryUpdateManyMutationInput {
@@ -446,6 +466,15 @@ input HistoryUpdateOneWithoutCommentsInput {
   create: HistoryCreateWithoutCommentsInput
   update: HistoryUpdateWithoutCommentsDataInput
   upsert: HistoryUpsertWithoutCommentsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: HistoryWhereUniqueInput
+}
+
+input HistoryUpdateOneWithoutLikesInput {
+  create: HistoryCreateWithoutLikesInput
+  update: HistoryUpdateWithoutLikesDataInput
+  upsert: HistoryUpsertWithoutLikesInput
   delete: Boolean
   disconnect: Boolean
   connect: HistoryWhereUniqueInput
@@ -466,6 +495,16 @@ input HistoryUpdateWithoutCommentsDataInput {
   from: String
   to: String
   posts: PostUpdateManyWithoutBelongToInput
+  likes: LikeUpdateManyWithoutOnHistoryInput
+}
+
+input HistoryUpdateWithoutLikesDataInput {
+  title: String
+  description: String
+  from: String
+  to: String
+  posts: PostUpdateManyWithoutBelongToInput
+  comments: CommentUpdateManyWithoutOnHistoryInput
 }
 
 input HistoryUpdateWithoutPostsDataInput {
@@ -474,11 +513,17 @@ input HistoryUpdateWithoutPostsDataInput {
   from: String
   to: String
   comments: CommentUpdateManyWithoutOnHistoryInput
+  likes: LikeUpdateManyWithoutOnHistoryInput
 }
 
 input HistoryUpsertWithoutCommentsInput {
   update: HistoryUpdateWithoutCommentsDataInput!
   create: HistoryCreateWithoutCommentsInput!
+}
+
+input HistoryUpsertWithoutLikesInput {
+  update: HistoryUpdateWithoutLikesDataInput!
+  create: HistoryCreateWithoutLikesInput!
 }
 
 input HistoryUpsertWithoutPostsInput {
@@ -571,6 +616,9 @@ input HistoryWhereInput {
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
+  likes_every: LikeWhereInput
+  likes_some: LikeWhereInput
+  likes_none: LikeWhereInput
   AND: [HistoryWhereInput!]
   OR: [HistoryWhereInput!]
   NOT: [HistoryWhereInput!]
@@ -584,6 +632,8 @@ type Like {
   id: ID!
   author: User!
   onPost: Post
+  createdAt: DateTime!
+  onHistory: History
 }
 
 type LikeConnection {
@@ -596,10 +646,16 @@ input LikeCreateInput {
   id: ID
   author: UserCreateOneWithoutLikesInput!
   onPost: PostCreateOneWithoutLikesInput
+  onHistory: HistoryCreateOneWithoutLikesInput
 }
 
 input LikeCreateManyWithoutAuthorInput {
   create: [LikeCreateWithoutAuthorInput!]
+  connect: [LikeWhereUniqueInput!]
+}
+
+input LikeCreateManyWithoutOnHistoryInput {
+  create: [LikeCreateWithoutOnHistoryInput!]
   connect: [LikeWhereUniqueInput!]
 }
 
@@ -611,11 +667,19 @@ input LikeCreateManyWithoutOnPostInput {
 input LikeCreateWithoutAuthorInput {
   id: ID
   onPost: PostCreateOneWithoutLikesInput
+  onHistory: HistoryCreateOneWithoutLikesInput
+}
+
+input LikeCreateWithoutOnHistoryInput {
+  id: ID
+  author: UserCreateOneWithoutLikesInput!
+  onPost: PostCreateOneWithoutLikesInput
 }
 
 input LikeCreateWithoutOnPostInput {
   id: ID
   author: UserCreateOneWithoutLikesInput!
+  onHistory: HistoryCreateOneWithoutLikesInput
 }
 
 type LikeEdge {
@@ -626,10 +690,13 @@ type LikeEdge {
 enum LikeOrderByInput {
   id_ASC
   id_DESC
+  createdAt_ASC
+  createdAt_DESC
 }
 
 type LikePreviousValues {
   id: ID!
+  createdAt: DateTime!
 }
 
 input LikeScalarWhereInput {
@@ -647,6 +714,14 @@ input LikeScalarWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
   AND: [LikeScalarWhereInput!]
   OR: [LikeScalarWhereInput!]
   NOT: [LikeScalarWhereInput!]
@@ -673,6 +748,7 @@ input LikeSubscriptionWhereInput {
 input LikeUpdateInput {
   author: UserUpdateOneRequiredWithoutLikesInput
   onPost: PostUpdateOneWithoutLikesInput
+  onHistory: HistoryUpdateOneWithoutLikesInput
 }
 
 input LikeUpdateManyWithoutAuthorInput {
@@ -683,6 +759,17 @@ input LikeUpdateManyWithoutAuthorInput {
   disconnect: [LikeWhereUniqueInput!]
   update: [LikeUpdateWithWhereUniqueWithoutAuthorInput!]
   upsert: [LikeUpsertWithWhereUniqueWithoutAuthorInput!]
+  deleteMany: [LikeScalarWhereInput!]
+}
+
+input LikeUpdateManyWithoutOnHistoryInput {
+  create: [LikeCreateWithoutOnHistoryInput!]
+  delete: [LikeWhereUniqueInput!]
+  connect: [LikeWhereUniqueInput!]
+  set: [LikeWhereUniqueInput!]
+  disconnect: [LikeWhereUniqueInput!]
+  update: [LikeUpdateWithWhereUniqueWithoutOnHistoryInput!]
+  upsert: [LikeUpsertWithWhereUniqueWithoutOnHistoryInput!]
   deleteMany: [LikeScalarWhereInput!]
 }
 
@@ -699,15 +786,27 @@ input LikeUpdateManyWithoutOnPostInput {
 
 input LikeUpdateWithoutAuthorDataInput {
   onPost: PostUpdateOneWithoutLikesInput
+  onHistory: HistoryUpdateOneWithoutLikesInput
+}
+
+input LikeUpdateWithoutOnHistoryDataInput {
+  author: UserUpdateOneRequiredWithoutLikesInput
+  onPost: PostUpdateOneWithoutLikesInput
 }
 
 input LikeUpdateWithoutOnPostDataInput {
   author: UserUpdateOneRequiredWithoutLikesInput
+  onHistory: HistoryUpdateOneWithoutLikesInput
 }
 
 input LikeUpdateWithWhereUniqueWithoutAuthorInput {
   where: LikeWhereUniqueInput!
   data: LikeUpdateWithoutAuthorDataInput!
+}
+
+input LikeUpdateWithWhereUniqueWithoutOnHistoryInput {
+  where: LikeWhereUniqueInput!
+  data: LikeUpdateWithoutOnHistoryDataInput!
 }
 
 input LikeUpdateWithWhereUniqueWithoutOnPostInput {
@@ -719,6 +818,12 @@ input LikeUpsertWithWhereUniqueWithoutAuthorInput {
   where: LikeWhereUniqueInput!
   update: LikeUpdateWithoutAuthorDataInput!
   create: LikeCreateWithoutAuthorInput!
+}
+
+input LikeUpsertWithWhereUniqueWithoutOnHistoryInput {
+  where: LikeWhereUniqueInput!
+  update: LikeUpdateWithoutOnHistoryDataInput!
+  create: LikeCreateWithoutOnHistoryInput!
 }
 
 input LikeUpsertWithWhereUniqueWithoutOnPostInput {
@@ -744,6 +849,15 @@ input LikeWhereInput {
   id_not_ends_with: ID
   author: UserWhereInput
   onPost: PostWhereInput
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  onHistory: HistoryWhereInput
   AND: [LikeWhereInput!]
   OR: [LikeWhereInput!]
   NOT: [LikeWhereInput!]

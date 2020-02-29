@@ -18,6 +18,8 @@ type History{
     createdAt: DateTime! @createdAt
     posts:[Post!] @relation(name:"PostHistory")
     comments: [Comment!]! @relation(name:"CommentHistory")
+    likes: [Like!]! @relation(name:"LikeHistory")
+    
 }
 type User{
     id: ID! @id
@@ -40,4 +42,6 @@ type Like{
     id: ID! @id
     author: User ! @relation(name:"LikeUser")
     onPost: Post @relation(name:"LikePost")
+    createdAt: DateTime! @createdAt
+    onHistory: History @relation(name:"LikeHistory")
 }

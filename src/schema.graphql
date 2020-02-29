@@ -28,6 +28,7 @@ type History{
     to:String!
     posts:[Post!]
     comments: [Comment!]!
+    likes: [Like!]!
 }
 input PostInput{
     title: String!
@@ -60,6 +61,7 @@ type Mutation{
     commentOnHistory(content:String!,onHistory:ID!):Comment!
     comment(content:String!,onPost:ID!): Comment!
     like(onPost: ID!):Like!
+    likeOnHistory(onHistory: ID!):Like!
 }
 type AuthPayload{
     token: String
@@ -73,6 +75,8 @@ type Like{
     id: ID!
     author: User! 
     onPost: Post!
+    createdAt: String!
+    onHistory: History
 }
 `
 module.exports={
