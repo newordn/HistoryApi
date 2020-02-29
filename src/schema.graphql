@@ -8,6 +8,7 @@ type Query{
     histories: [History!]!
     history(id: ID!): History!
     commentsByPost(postId: ID!): [Comment!]!
+    commentsByHistory(historyId: ID!): [Comment!]!
 }
 type Post{
     id: ID!
@@ -26,6 +27,7 @@ type History{
     from: String!
     to:String!
     posts:[Post!]
+    comments: [Comment!]!
 }
 input PostInput{
     title: String!
@@ -47,6 +49,7 @@ type Comment{
     content: String! 
     author: User! 
     onPost: Post
+    onHistory: History
     createdAt: String
 }
 type Mutation{
@@ -54,6 +57,7 @@ type Mutation{
     history(title:String!,description:String!,from:String!,to:String!,posts:[PostInput!]): History!
     signUp(name:String!,email:String!,phone:String!,password:String!): AuthPayload!
     signIn(phone:String!,password:String!): AuthPayload!
+    commentOnHistory(content:String!,onHistory:ID!):Comment!
     comment(content:String!,onPost:ID!): Comment!
     like(onPost: ID!):Like!
 }

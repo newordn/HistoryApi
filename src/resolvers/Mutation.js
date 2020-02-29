@@ -58,6 +58,13 @@ const comment = async (parent,args,context,info)=>{
  const comment = await context.prisma.createComment({...args,onPost:{connect:{id:postId}},author:{connect:{id:userId}}})
  return comment
 }
+const commentOnHistory = async (parent,args,context,info)=>{
+    console.log('comment on history mutation')
+    const userId = getUserId(context)
+    const historyId = args.onHistory
+ const comment = await context.prisma.createComment({...args,onHistory:{connect:{id:historyId}},author:{connect:{id:userId}}})
+ return comment
+}
 
 const like = async (parent,args,context,info)=>{
     console.log('like mutation')
@@ -73,5 +80,6 @@ module.exports={
     signUp,
     signIn,
     comment,
-    like
+    like,
+    commentOnHistory
 }

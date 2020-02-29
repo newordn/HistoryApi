@@ -33,6 +33,7 @@ type Comment {
   author: User!
   onPost: Post
   createdAt: DateTime!
+  onHistory: History
 }
 
 type CommentConnection {
@@ -46,10 +47,16 @@ input CommentCreateInput {
   content: String!
   author: UserCreateOneWithoutCommentsInput!
   onPost: PostCreateOneWithoutCommentsInput
+  onHistory: HistoryCreateOneWithoutCommentsInput
 }
 
 input CommentCreateManyWithoutAuthorInput {
   create: [CommentCreateWithoutAuthorInput!]
+  connect: [CommentWhereUniqueInput!]
+}
+
+input CommentCreateManyWithoutOnHistoryInput {
+  create: [CommentCreateWithoutOnHistoryInput!]
   connect: [CommentWhereUniqueInput!]
 }
 
@@ -62,12 +69,21 @@ input CommentCreateWithoutAuthorInput {
   id: ID
   content: String!
   onPost: PostCreateOneWithoutCommentsInput
+  onHistory: HistoryCreateOneWithoutCommentsInput
+}
+
+input CommentCreateWithoutOnHistoryInput {
+  id: ID
+  content: String!
+  author: UserCreateOneWithoutCommentsInput!
+  onPost: PostCreateOneWithoutCommentsInput
 }
 
 input CommentCreateWithoutOnPostInput {
   id: ID
   content: String!
   author: UserCreateOneWithoutCommentsInput!
+  onHistory: HistoryCreateOneWithoutCommentsInput
 }
 
 type CommentEdge {
@@ -154,6 +170,7 @@ input CommentUpdateInput {
   content: String
   author: UserUpdateOneRequiredWithoutCommentsInput
   onPost: PostUpdateOneWithoutCommentsInput
+  onHistory: HistoryUpdateOneWithoutCommentsInput
 }
 
 input CommentUpdateManyDataInput {
@@ -172,6 +189,18 @@ input CommentUpdateManyWithoutAuthorInput {
   disconnect: [CommentWhereUniqueInput!]
   update: [CommentUpdateWithWhereUniqueWithoutAuthorInput!]
   upsert: [CommentUpsertWithWhereUniqueWithoutAuthorInput!]
+  deleteMany: [CommentScalarWhereInput!]
+  updateMany: [CommentUpdateManyWithWhereNestedInput!]
+}
+
+input CommentUpdateManyWithoutOnHistoryInput {
+  create: [CommentCreateWithoutOnHistoryInput!]
+  delete: [CommentWhereUniqueInput!]
+  connect: [CommentWhereUniqueInput!]
+  set: [CommentWhereUniqueInput!]
+  disconnect: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutOnHistoryInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutOnHistoryInput!]
   deleteMany: [CommentScalarWhereInput!]
   updateMany: [CommentUpdateManyWithWhereNestedInput!]
 }
@@ -196,16 +225,29 @@ input CommentUpdateManyWithWhereNestedInput {
 input CommentUpdateWithoutAuthorDataInput {
   content: String
   onPost: PostUpdateOneWithoutCommentsInput
+  onHistory: HistoryUpdateOneWithoutCommentsInput
+}
+
+input CommentUpdateWithoutOnHistoryDataInput {
+  content: String
+  author: UserUpdateOneRequiredWithoutCommentsInput
+  onPost: PostUpdateOneWithoutCommentsInput
 }
 
 input CommentUpdateWithoutOnPostDataInput {
   content: String
   author: UserUpdateOneRequiredWithoutCommentsInput
+  onHistory: HistoryUpdateOneWithoutCommentsInput
 }
 
 input CommentUpdateWithWhereUniqueWithoutAuthorInput {
   where: CommentWhereUniqueInput!
   data: CommentUpdateWithoutAuthorDataInput!
+}
+
+input CommentUpdateWithWhereUniqueWithoutOnHistoryInput {
+  where: CommentWhereUniqueInput!
+  data: CommentUpdateWithoutOnHistoryDataInput!
 }
 
 input CommentUpdateWithWhereUniqueWithoutOnPostInput {
@@ -217,6 +259,12 @@ input CommentUpsertWithWhereUniqueWithoutAuthorInput {
   where: CommentWhereUniqueInput!
   update: CommentUpdateWithoutAuthorDataInput!
   create: CommentCreateWithoutAuthorInput!
+}
+
+input CommentUpsertWithWhereUniqueWithoutOnHistoryInput {
+  where: CommentWhereUniqueInput!
+  update: CommentUpdateWithoutOnHistoryDataInput!
+  create: CommentCreateWithoutOnHistoryInput!
 }
 
 input CommentUpsertWithWhereUniqueWithoutOnPostInput {
@@ -264,6 +312,7 @@ input CommentWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  onHistory: HistoryWhereInput
   AND: [CommentWhereInput!]
   OR: [CommentWhereInput!]
   NOT: [CommentWhereInput!]
@@ -283,6 +332,7 @@ type History {
   to: String!
   createdAt: DateTime!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
 }
 
 type HistoryConnection {
@@ -298,11 +348,26 @@ input HistoryCreateInput {
   from: String!
   to: String!
   posts: PostCreateManyWithoutBelongToInput
+  comments: CommentCreateManyWithoutOnHistoryInput
+}
+
+input HistoryCreateOneWithoutCommentsInput {
+  create: HistoryCreateWithoutCommentsInput
+  connect: HistoryWhereUniqueInput
 }
 
 input HistoryCreateOneWithoutPostsInput {
   create: HistoryCreateWithoutPostsInput
   connect: HistoryWhereUniqueInput
+}
+
+input HistoryCreateWithoutCommentsInput {
+  id: ID
+  title: String!
+  description: String!
+  from: String!
+  to: String!
+  posts: PostCreateManyWithoutBelongToInput
 }
 
 input HistoryCreateWithoutPostsInput {
@@ -311,6 +376,7 @@ input HistoryCreateWithoutPostsInput {
   description: String!
   from: String!
   to: String!
+  comments: CommentCreateManyWithoutOnHistoryInput
 }
 
 type HistoryEdge {
@@ -366,6 +432,7 @@ input HistoryUpdateInput {
   from: String
   to: String
   posts: PostUpdateManyWithoutBelongToInput
+  comments: CommentUpdateManyWithoutOnHistoryInput
 }
 
 input HistoryUpdateManyMutationInput {
@@ -373,6 +440,15 @@ input HistoryUpdateManyMutationInput {
   description: String
   from: String
   to: String
+}
+
+input HistoryUpdateOneWithoutCommentsInput {
+  create: HistoryCreateWithoutCommentsInput
+  update: HistoryUpdateWithoutCommentsDataInput
+  upsert: HistoryUpsertWithoutCommentsInput
+  delete: Boolean
+  disconnect: Boolean
+  connect: HistoryWhereUniqueInput
 }
 
 input HistoryUpdateOneWithoutPostsInput {
@@ -384,11 +460,25 @@ input HistoryUpdateOneWithoutPostsInput {
   connect: HistoryWhereUniqueInput
 }
 
+input HistoryUpdateWithoutCommentsDataInput {
+  title: String
+  description: String
+  from: String
+  to: String
+  posts: PostUpdateManyWithoutBelongToInput
+}
+
 input HistoryUpdateWithoutPostsDataInput {
   title: String
   description: String
   from: String
   to: String
+  comments: CommentUpdateManyWithoutOnHistoryInput
+}
+
+input HistoryUpsertWithoutCommentsInput {
+  update: HistoryUpdateWithoutCommentsDataInput!
+  create: HistoryCreateWithoutCommentsInput!
 }
 
 input HistoryUpsertWithoutPostsInput {
@@ -478,6 +568,9 @@ input HistoryWhereInput {
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
+  comments_every: CommentWhereInput
+  comments_some: CommentWhereInput
+  comments_none: CommentWhereInput
   AND: [HistoryWhereInput!]
   OR: [HistoryWhereInput!]
   NOT: [HistoryWhereInput!]

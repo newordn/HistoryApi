@@ -305,34 +305,34 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface PostUpdateWithoutLikesDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  date?: Maybe<String>;
-  belongTo?: Maybe<HistoryUpdateOneWithoutPostsInput>;
-  comments?: Maybe<CommentUpdateManyWithoutOnPostInput>;
+export interface PostUpdateOneWithoutLikesInput {
+  create?: Maybe<PostCreateWithoutLikesInput>;
+  update?: Maybe<PostUpdateWithoutLikesDataInput>;
+  upsert?: Maybe<PostUpsertWithoutLikesInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<PostWhereUniqueInput>;
 }
 
 export type CommentWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface CommentUpdateManyWithoutOnPostInput {
+export interface CommentUpdateManyWithoutOnHistoryInput {
   create?: Maybe<
-    CommentCreateWithoutOnPostInput[] | CommentCreateWithoutOnPostInput
+    CommentCreateWithoutOnHistoryInput[] | CommentCreateWithoutOnHistoryInput
   >;
   delete?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
   connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
   set?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
   disconnect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
   update?: Maybe<
-    | CommentUpdateWithWhereUniqueWithoutOnPostInput[]
-    | CommentUpdateWithWhereUniqueWithoutOnPostInput
+    | CommentUpdateWithWhereUniqueWithoutOnHistoryInput[]
+    | CommentUpdateWithWhereUniqueWithoutOnHistoryInput
   >;
   upsert?: Maybe<
-    | CommentUpsertWithWhereUniqueWithoutOnPostInput[]
-    | CommentUpsertWithWhereUniqueWithoutOnPostInput
+    | CommentUpsertWithWhereUniqueWithoutOnHistoryInput[]
+    | CommentUpsertWithWhereUniqueWithoutOnHistoryInput
   >;
   deleteMany?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
   updateMany?: Maybe<
@@ -432,9 +432,9 @@ export interface PostWhereInput {
   NOT?: Maybe<PostWhereInput[] | PostWhereInput>;
 }
 
-export interface CommentUpdateWithWhereUniqueWithoutOnPostInput {
+export interface CommentUpdateWithWhereUniqueWithoutOnHistoryInput {
   where: CommentWhereUniqueInput;
-  data: CommentUpdateWithoutOnPostDataInput;
+  data: CommentUpdateWithoutOnHistoryDataInput;
 }
 
 export interface HistoryWhereInput {
@@ -519,17 +519,26 @@ export interface HistoryWhereInput {
   posts_every?: Maybe<PostWhereInput>;
   posts_some?: Maybe<PostWhereInput>;
   posts_none?: Maybe<PostWhereInput>;
+  comments_every?: Maybe<CommentWhereInput>;
+  comments_some?: Maybe<CommentWhereInput>;
+  comments_none?: Maybe<CommentWhereInput>;
   AND?: Maybe<HistoryWhereInput[] | HistoryWhereInput>;
   OR?: Maybe<HistoryWhereInput[] | HistoryWhereInput>;
   NOT?: Maybe<HistoryWhereInput[] | HistoryWhereInput>;
 }
 
-export interface LikeCreateWithoutOnPostInput {
-  id?: Maybe<ID_Input>;
-  author: UserCreateOneWithoutLikesInput;
+export interface HistoryCreateOneWithoutCommentsInput {
+  create?: Maybe<HistoryCreateWithoutCommentsInput>;
+  connect?: Maybe<HistoryWhereUniqueInput>;
 }
 
-export interface HistoryCreateInput {
+export interface LikeUpsertWithWhereUniqueWithoutOnPostInput {
+  where: LikeWhereUniqueInput;
+  update: LikeUpdateWithoutOnPostDataInput;
+  create: LikeCreateWithoutOnPostInput;
+}
+
+export interface HistoryCreateWithoutCommentsInput {
   id?: Maybe<ID_Input>;
   title: String;
   description: String;
@@ -538,23 +547,17 @@ export interface HistoryCreateInput {
   posts?: Maybe<PostCreateManyWithoutBelongToInput>;
 }
 
-export interface UserCreateOneWithoutLikesInput {
-  create?: Maybe<UserCreateWithoutLikesInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface CommentUpdateWithoutOnPostDataInput {
+export interface CommentUpdateWithoutOnHistoryDataInput {
   content?: Maybe<String>;
   author?: Maybe<UserUpdateOneRequiredWithoutCommentsInput>;
+  onPost?: Maybe<PostUpdateOneWithoutCommentsInput>;
 }
 
-export interface UserCreateWithoutLikesInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  email: String;
-  phone: String;
-  password: String;
-  comments?: Maybe<CommentCreateManyWithoutAuthorInput>;
+export interface PostCreateManyWithoutBelongToInput {
+  create?: Maybe<
+    PostCreateWithoutBelongToInput[] | PostCreateWithoutBelongToInput
+  >;
+  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -568,11 +571,14 @@ export interface PostSubscriptionWhereInput {
   NOT?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
 }
 
-export interface CommentCreateManyWithoutAuthorInput {
-  create?: Maybe<
-    CommentCreateWithoutAuthorInput[] | CommentCreateWithoutAuthorInput
-  >;
-  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+export interface PostCreateWithoutBelongToInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  image: String;
+  date: String;
+  comments?: Maybe<CommentCreateManyWithoutOnPostInput>;
+  likes?: Maybe<LikeCreateManyWithoutOnPostInput>;
 }
 
 export interface CommentWhereInput {
@@ -614,15 +620,17 @@ export interface CommentWhereInput {
   createdAt_lte?: Maybe<DateTimeInput>;
   createdAt_gt?: Maybe<DateTimeInput>;
   createdAt_gte?: Maybe<DateTimeInput>;
+  onHistory?: Maybe<HistoryWhereInput>;
   AND?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   OR?: Maybe<CommentWhereInput[] | CommentWhereInput>;
   NOT?: Maybe<CommentWhereInput[] | CommentWhereInput>;
 }
 
-export interface CommentCreateWithoutAuthorInput {
-  id?: Maybe<ID_Input>;
-  content: String;
-  onPost?: Maybe<PostCreateOneWithoutCommentsInput>;
+export interface CommentCreateManyWithoutOnPostInput {
+  create?: Maybe<
+    CommentCreateWithoutOnPostInput[] | CommentCreateWithoutOnPostInput
+  >;
+  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
 }
 
 export interface CommentSubscriptionWhereInput {
@@ -636,10 +644,11 @@ export interface CommentSubscriptionWhereInput {
   NOT?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
 }
 
-export interface CommentUpdateInput {
-  content?: Maybe<String>;
-  author?: Maybe<UserUpdateOneRequiredWithoutCommentsInput>;
-  onPost?: Maybe<PostUpdateOneWithoutCommentsInput>;
+export interface CommentCreateWithoutOnPostInput {
+  id?: Maybe<ID_Input>;
+  content: String;
+  author: UserCreateOneWithoutCommentsInput;
+  onHistory?: Maybe<HistoryCreateOneWithoutCommentsInput>;
 }
 
 export interface UserUpdateInput {
@@ -651,23 +660,22 @@ export interface UserUpdateInput {
   likes?: Maybe<LikeUpdateManyWithoutAuthorInput>;
 }
 
-export interface UserUpdateOneRequiredWithoutCommentsInput {
-  create?: Maybe<UserCreateWithoutCommentsInput>;
-  update?: Maybe<UserUpdateWithoutCommentsDataInput>;
-  upsert?: Maybe<UserUpsertWithoutCommentsInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
+export interface CommentUpdateInput {
+  content?: Maybe<String>;
+  author?: Maybe<UserUpdateOneRequiredWithoutCommentsInput>;
+  onPost?: Maybe<PostUpdateOneWithoutCommentsInput>;
+  onHistory?: Maybe<HistoryUpdateOneWithoutCommentsInput>;
 }
 
 export type HistoryWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
-export interface UserUpdateWithoutCommentsDataInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  phone?: Maybe<String>;
-  password?: Maybe<String>;
-  likes?: Maybe<LikeUpdateManyWithoutAuthorInput>;
+export interface UserUpdateOneRequiredWithoutCommentsInput {
+  create?: Maybe<UserCreateWithoutCommentsInput>;
+  update?: Maybe<UserUpdateWithoutCommentsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutCommentsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
 }
 
 export interface PostUpdateInput {
@@ -678,6 +686,19 @@ export interface PostUpdateInput {
   belongTo?: Maybe<HistoryUpdateOneWithoutPostsInput>;
   comments?: Maybe<CommentUpdateManyWithoutOnPostInput>;
   likes?: Maybe<LikeUpdateManyWithoutOnPostInput>;
+}
+
+export interface UserUpdateWithoutCommentsDataInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+  likes?: Maybe<LikeUpdateManyWithoutAuthorInput>;
+}
+
+export interface LikeUpdateInput {
+  author?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
+  onPost?: Maybe<PostUpdateOneWithoutLikesInput>;
 }
 
 export interface LikeUpdateManyWithoutAuthorInput {
@@ -697,9 +718,10 @@ export interface LikeUpdateManyWithoutAuthorInput {
   deleteMany?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
 }
 
-export interface LikeUpdateInput {
-  author?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
-  onPost?: Maybe<PostUpdateOneWithoutLikesInput>;
+export interface LikeCreateInput {
+  id?: Maybe<ID_Input>;
+  author: UserCreateOneWithoutLikesInput;
+  onPost?: Maybe<PostCreateOneWithoutLikesInput>;
 }
 
 export interface LikeUpdateWithWhereUniqueWithoutAuthorInput {
@@ -707,51 +729,52 @@ export interface LikeUpdateWithWhereUniqueWithoutAuthorInput {
   data: LikeUpdateWithoutAuthorDataInput;
 }
 
-export interface LikeCreateInput {
-  id?: Maybe<ID_Input>;
-  author: UserCreateOneWithoutLikesInput;
-  onPost?: Maybe<PostCreateOneWithoutLikesInput>;
+export interface HistoryUpdateInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  from?: Maybe<String>;
+  to?: Maybe<String>;
+  posts?: Maybe<PostUpdateManyWithoutBelongToInput>;
+  comments?: Maybe<CommentUpdateManyWithoutOnHistoryInput>;
 }
 
 export interface LikeUpdateWithoutAuthorDataInput {
   onPost?: Maybe<PostUpdateOneWithoutLikesInput>;
 }
 
-export interface PostUpdateManyDataInput {
+export interface HistoryCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  from: String;
+  to: String;
+  posts?: Maybe<PostCreateManyWithoutBelongToInput>;
+  comments?: Maybe<CommentCreateManyWithoutOnHistoryInput>;
+}
+
+export interface PostUpsertWithoutCommentsInput {
+  update: PostUpdateWithoutCommentsDataInput;
+  create: PostCreateWithoutCommentsInput;
+}
+
+export interface UserUpsertWithoutCommentsInput {
+  update: UserUpdateWithoutCommentsDataInput;
+  create: UserCreateWithoutCommentsInput;
+}
+
+export interface PostUpdateWithoutLikesDataInput {
   title?: Maybe<String>;
   description?: Maybe<String>;
   image?: Maybe<String>;
   date?: Maybe<String>;
+  belongTo?: Maybe<HistoryUpdateOneWithoutPostsInput>;
+  comments?: Maybe<CommentUpdateManyWithoutOnPostInput>;
 }
 
-export interface PostUpdateOneWithoutLikesInput {
-  create?: Maybe<PostCreateWithoutLikesInput>;
-  update?: Maybe<PostUpdateWithoutLikesDataInput>;
-  upsert?: Maybe<PostUpsertWithoutLikesInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
-
-export interface PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput;
-  data: PostUpdateManyDataInput;
-}
-
-export interface PostCreateWithoutBelongToInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  image: String;
-  date: String;
-  comments?: Maybe<CommentCreateManyWithoutOnPostInput>;
-  likes?: Maybe<LikeCreateManyWithoutOnPostInput>;
-}
-
-export interface PostUpsertWithWhereUniqueWithoutBelongToInput {
-  where: PostWhereUniqueInput;
-  update: PostUpdateWithoutBelongToDataInput;
-  create: PostCreateWithoutBelongToInput;
+export interface LikeUpsertWithWhereUniqueWithoutAuthorInput {
+  where: LikeWhereUniqueInput;
+  update: LikeUpdateWithoutAuthorDataInput;
+  create: LikeCreateWithoutAuthorInput;
 }
 
 export interface HistoryUpdateOneWithoutPostsInput {
@@ -763,13 +786,9 @@ export interface HistoryUpdateOneWithoutPostsInput {
   connect?: Maybe<HistoryWhereUniqueInput>;
 }
 
-export interface PostUpdateWithoutBelongToDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  date?: Maybe<String>;
-  comments?: Maybe<CommentUpdateManyWithoutOnPostInput>;
-  likes?: Maybe<LikeUpdateManyWithoutOnPostInput>;
+export interface HistoryUpsertWithoutPostsInput {
+  update: HistoryUpdateWithoutPostsDataInput;
+  create: HistoryCreateWithoutPostsInput;
 }
 
 export interface HistoryUpdateWithoutPostsDataInput {
@@ -777,33 +796,7 @@ export interface HistoryUpdateWithoutPostsDataInput {
   description?: Maybe<String>;
   from?: Maybe<String>;
   to?: Maybe<String>;
-}
-
-export interface PostUpdateManyWithoutBelongToInput {
-  create?: Maybe<
-    PostCreateWithoutBelongToInput[] | PostCreateWithoutBelongToInput
-  >;
-  delete?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-  set?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-  disconnect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
-  update?: Maybe<
-    | PostUpdateWithWhereUniqueWithoutBelongToInput[]
-    | PostUpdateWithWhereUniqueWithoutBelongToInput
-  >;
-  upsert?: Maybe<
-    | PostUpsertWithWhereUniqueWithoutBelongToInput[]
-    | PostUpsertWithWhereUniqueWithoutBelongToInput
-  >;
-  deleteMany?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
-  updateMany?: Maybe<
-    PostUpdateManyWithWhereNestedInput[] | PostUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface HistoryUpsertWithoutPostsInput {
-  update: HistoryUpdateWithoutPostsDataInput;
-  create: HistoryCreateWithoutPostsInput;
+  comments?: Maybe<CommentUpdateManyWithoutOnHistoryInput>;
 }
 
 export interface UserCreateOneWithoutCommentsInput {
@@ -811,11 +804,24 @@ export interface UserCreateOneWithoutCommentsInput {
   connect?: Maybe<UserWhereUniqueInput>;
 }
 
-export interface PostCreateManyWithoutBelongToInput {
-  create?: Maybe<
-    PostCreateWithoutBelongToInput[] | PostCreateWithoutBelongToInput
-  >;
-  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+export interface LikeScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  AND?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
+  OR?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
+  NOT?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
 }
 
 export interface LikeCreateManyWithoutAuthorInput {
@@ -937,17 +943,337 @@ export interface HistoryCreateOneWithoutPostsInput {
   connect?: Maybe<HistoryWhereUniqueInput>;
 }
 
+export interface PostUpdateOneWithoutCommentsInput {
+  create?: Maybe<PostCreateWithoutCommentsInput>;
+  update?: Maybe<PostUpdateWithoutCommentsDataInput>;
+  upsert?: Maybe<PostUpsertWithoutCommentsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<PostWhereUniqueInput>;
+}
+
+export interface CommentCreateManyWithoutOnHistoryInput {
+  create?: Maybe<
+    CommentCreateWithoutOnHistoryInput[] | CommentCreateWithoutOnHistoryInput
+  >;
+  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+}
+
+export interface PostUpdateWithoutCommentsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  date?: Maybe<String>;
+  belongTo?: Maybe<HistoryUpdateOneWithoutPostsInput>;
+  likes?: Maybe<LikeUpdateManyWithoutOnPostInput>;
+}
+
+export interface PostCreateOneWithoutCommentsInput {
+  create?: Maybe<PostCreateWithoutCommentsInput>;
+  connect?: Maybe<PostWhereUniqueInput>;
+}
+
+export interface LikeUpdateManyWithoutOnPostInput {
+  create?: Maybe<LikeCreateWithoutOnPostInput[] | LikeCreateWithoutOnPostInput>;
+  delete?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  set?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  disconnect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+  update?: Maybe<
+    | LikeUpdateWithWhereUniqueWithoutOnPostInput[]
+    | LikeUpdateWithWhereUniqueWithoutOnPostInput
+  >;
+  upsert?: Maybe<
+    | LikeUpsertWithWhereUniqueWithoutOnPostInput[]
+    | LikeUpsertWithWhereUniqueWithoutOnPostInput
+  >;
+  deleteMany?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
+}
+
+export interface LikeCreateManyWithoutOnPostInput {
+  create?: Maybe<LikeCreateWithoutOnPostInput[] | LikeCreateWithoutOnPostInput>;
+  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+}
+
+export interface LikeUpdateWithWhereUniqueWithoutOnPostInput {
+  where: LikeWhereUniqueInput;
+  data: LikeUpdateWithoutOnPostDataInput;
+}
+
+export interface UserCreateOneWithoutLikesInput {
+  create?: Maybe<UserCreateWithoutLikesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface LikeUpdateWithoutOnPostDataInput {
+  author?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
+}
+
+export interface CommentCreateManyWithoutAuthorInput {
+  create?: Maybe<
+    CommentCreateWithoutAuthorInput[] | CommentCreateWithoutAuthorInput
+  >;
+  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutLikesInput {
+  create?: Maybe<UserCreateWithoutLikesInput>;
+  update?: Maybe<UserUpdateWithoutLikesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutLikesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface UserUpdateWithoutLikesDataInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+  comments?: Maybe<CommentUpdateManyWithoutAuthorInput>;
+}
+
+export interface HistorySubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<HistoryWhereInput>;
+  AND?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
+  OR?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
+  NOT?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
+}
+
+export interface CommentUpdateManyWithoutAuthorInput {
+  create?: Maybe<
+    CommentCreateWithoutAuthorInput[] | CommentCreateWithoutAuthorInput
+  >;
+  delete?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+  set?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+  disconnect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+  update?: Maybe<
+    | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
+    | CommentUpdateWithWhereUniqueWithoutAuthorInput
+  >;
+  upsert?: Maybe<
+    | CommentUpsertWithWhereUniqueWithoutAuthorInput[]
+    | CommentUpsertWithWhereUniqueWithoutAuthorInput
+  >;
+  deleteMany?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
+  updateMany?: Maybe<
+    | CommentUpdateManyWithWhereNestedInput[]
+    | CommentUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  email: String;
+  phone: String;
+  password: String;
+  comments?: Maybe<CommentCreateManyWithoutAuthorInput>;
+  likes?: Maybe<LikeCreateManyWithoutAuthorInput>;
+}
+
+export interface CommentUpdateWithWhereUniqueWithoutAuthorInput {
+  where: CommentWhereUniqueInput;
+  data: CommentUpdateWithoutAuthorDataInput;
+}
+
+export interface PostCreateInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  image: String;
+  date: String;
+  belongTo?: Maybe<HistoryCreateOneWithoutPostsInput>;
+  comments?: Maybe<CommentCreateManyWithoutOnPostInput>;
+  likes?: Maybe<LikeCreateManyWithoutOnPostInput>;
+}
+
+export interface CommentUpdateWithoutAuthorDataInput {
+  content?: Maybe<String>;
+  onPost?: Maybe<PostUpdateOneWithoutCommentsInput>;
+  onHistory?: Maybe<HistoryUpdateOneWithoutCommentsInput>;
+}
+
+export interface HistoryUpdateManyMutationInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  from?: Maybe<String>;
+  to?: Maybe<String>;
+}
+
+export interface HistoryUpdateOneWithoutCommentsInput {
+  create?: Maybe<HistoryCreateWithoutCommentsInput>;
+  update?: Maybe<HistoryUpdateWithoutCommentsDataInput>;
+  upsert?: Maybe<HistoryUpsertWithoutCommentsInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<HistoryWhereUniqueInput>;
+}
+
+export interface CommentUpdateManyMutationInput {
+  content?: Maybe<String>;
+}
+
+export interface HistoryUpdateWithoutCommentsDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  from?: Maybe<String>;
+  to?: Maybe<String>;
+  posts?: Maybe<PostUpdateManyWithoutBelongToInput>;
+}
+
+export interface PostUpsertWithoutLikesInput {
+  update: PostUpdateWithoutLikesDataInput;
+  create: PostCreateWithoutLikesInput;
+}
+
+export interface PostUpdateManyWithoutBelongToInput {
+  create?: Maybe<
+    PostCreateWithoutBelongToInput[] | PostCreateWithoutBelongToInput
+  >;
+  delete?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  connect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  set?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  disconnect?: Maybe<PostWhereUniqueInput[] | PostWhereUniqueInput>;
+  update?: Maybe<
+    | PostUpdateWithWhereUniqueWithoutBelongToInput[]
+    | PostUpdateWithWhereUniqueWithoutBelongToInput
+  >;
+  upsert?: Maybe<
+    | PostUpsertWithWhereUniqueWithoutBelongToInput[]
+    | PostUpsertWithWhereUniqueWithoutBelongToInput
+  >;
+  deleteMany?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
+  updateMany?: Maybe<
+    PostUpdateManyWithWhereNestedInput[] | PostUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface CommentCreateInput {
+  id?: Maybe<ID_Input>;
+  content: String;
+  author: UserCreateOneWithoutCommentsInput;
+  onPost?: Maybe<PostCreateOneWithoutCommentsInput>;
+  onHistory?: Maybe<HistoryCreateOneWithoutCommentsInput>;
+}
+
+export interface PostUpdateWithWhereUniqueWithoutBelongToInput {
+  where: PostWhereUniqueInput;
+  data: PostUpdateWithoutBelongToDataInput;
+}
+
+export interface LikeCreateWithoutAuthorInput {
+  id?: Maybe<ID_Input>;
+  onPost?: Maybe<PostCreateOneWithoutLikesInput>;
+}
+
+export interface PostUpdateWithoutBelongToDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  date?: Maybe<String>;
+  comments?: Maybe<CommentUpdateManyWithoutOnPostInput>;
+  likes?: Maybe<LikeUpdateManyWithoutOnPostInput>;
+}
+
+export interface HistoryCreateWithoutPostsInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  from: String;
+  to: String;
+  comments?: Maybe<CommentCreateManyWithoutOnHistoryInput>;
+}
+
+export interface CommentUpdateManyWithoutOnPostInput {
+  create?: Maybe<
+    CommentCreateWithoutOnPostInput[] | CommentCreateWithoutOnPostInput
+  >;
+  delete?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+  set?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+  disconnect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+  update?: Maybe<
+    | CommentUpdateWithWhereUniqueWithoutOnPostInput[]
+    | CommentUpdateWithWhereUniqueWithoutOnPostInput
+  >;
+  upsert?: Maybe<
+    | CommentUpsertWithWhereUniqueWithoutOnPostInput[]
+    | CommentUpsertWithWhereUniqueWithoutOnPostInput
+  >;
+  deleteMany?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
+  updateMany?: Maybe<
+    | CommentUpdateManyWithWhereNestedInput[]
+    | CommentUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface PostCreateWithoutCommentsInput {
+  id?: Maybe<ID_Input>;
+  title: String;
+  description: String;
+  image: String;
+  date: String;
+  belongTo?: Maybe<HistoryCreateOneWithoutPostsInput>;
+  likes?: Maybe<LikeCreateManyWithoutOnPostInput>;
+}
+
+export interface CommentUpdateWithWhereUniqueWithoutOnPostInput {
+  where: CommentWhereUniqueInput;
+  data: CommentUpdateWithoutOnPostDataInput;
+}
+
+export interface UserCreateWithoutLikesInput {
+  id?: Maybe<ID_Input>;
+  name?: Maybe<String>;
+  email: String;
+  phone: String;
+  password: String;
+  comments?: Maybe<CommentCreateManyWithoutAuthorInput>;
+}
+
+export interface CommentUpdateWithoutOnPostDataInput {
+  content?: Maybe<String>;
+  author?: Maybe<UserUpdateOneRequiredWithoutCommentsInput>;
+  onHistory?: Maybe<HistoryUpdateOneWithoutCommentsInput>;
+}
+
+export interface LikeSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LikeWhereInput>;
+  AND?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+  OR?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+  NOT?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
+}
+
 export interface CommentUpsertWithWhereUniqueWithoutOnPostInput {
   where: CommentWhereUniqueInput;
   update: CommentUpdateWithoutOnPostDataInput;
   create: CommentCreateWithoutOnPostInput;
 }
 
-export interface CommentCreateManyWithoutOnPostInput {
-  create?: Maybe<
-    CommentCreateWithoutOnPostInput[] | CommentCreateWithoutOnPostInput
-  >;
-  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
+export interface PostUpdateManyMutationInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  date?: Maybe<String>;
 }
 
 export interface CommentScalarWhereInput {
@@ -992,155 +1318,23 @@ export interface CommentScalarWhereInput {
   NOT?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
 }
 
-export interface PostCreateOneWithoutCommentsInput {
-  create?: Maybe<PostCreateWithoutCommentsInput>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
+export type PostWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
 
 export interface CommentUpdateManyWithWhereNestedInput {
   where: CommentScalarWhereInput;
   data: CommentUpdateManyDataInput;
 }
 
-export interface LikeCreateManyWithoutOnPostInput {
-  create?: Maybe<LikeCreateWithoutOnPostInput[] | LikeCreateWithoutOnPostInput>;
-  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
+export interface CommentUpsertWithWhereUniqueWithoutOnHistoryInput {
+  where: CommentWhereUniqueInput;
+  update: CommentUpdateWithoutOnHistoryDataInput;
+  create: CommentCreateWithoutOnHistoryInput;
 }
 
 export interface CommentUpdateManyDataInput {
   content?: Maybe<String>;
-}
-
-export interface LikeSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<LikeWhereInput>;
-  AND?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
-  OR?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
-  NOT?: Maybe<LikeSubscriptionWhereInput[] | LikeSubscriptionWhereInput>;
-}
-
-export interface PostUpsertWithoutLikesInput {
-  update: PostUpdateWithoutLikesDataInput;
-  create: PostCreateWithoutLikesInput;
-}
-
-export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  phone?: Maybe<String>;
-  password?: Maybe<String>;
-}
-
-export interface LikeUpsertWithWhereUniqueWithoutAuthorInput {
-  where: LikeWhereUniqueInput;
-  update: LikeUpdateWithoutAuthorDataInput;
-  create: LikeCreateWithoutAuthorInput;
-}
-
-export interface PostUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  date?: Maybe<String>;
-}
-
-export interface LikeScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
-  AND?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
-  OR?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
-  NOT?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
-}
-
-export type LikeWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface UserUpsertWithoutCommentsInput {
-  update: UserUpdateWithoutCommentsDataInput;
-  create: UserCreateWithoutCommentsInput;
-}
-
-export type PostWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-}>;
-
-export interface PostUpdateOneWithoutCommentsInput {
-  create?: Maybe<PostCreateWithoutCommentsInput>;
-  update?: Maybe<PostUpdateWithoutCommentsDataInput>;
-  upsert?: Maybe<PostUpsertWithoutCommentsInput>;
-  delete?: Maybe<Boolean>;
-  disconnect?: Maybe<Boolean>;
-  connect?: Maybe<PostWhereUniqueInput>;
-}
-
-export type UserWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  phone?: Maybe<String>;
-}>;
-
-export interface PostUpdateWithoutCommentsDataInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  image?: Maybe<String>;
-  date?: Maybe<String>;
-  belongTo?: Maybe<HistoryUpdateOneWithoutPostsInput>;
-  likes?: Maybe<LikeUpdateManyWithoutOnPostInput>;
-}
-
-export interface HistoryUpdateInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  from?: Maybe<String>;
-  to?: Maybe<String>;
-  posts?: Maybe<PostUpdateManyWithoutBelongToInput>;
-}
-
-export interface LikeUpdateManyWithoutOnPostInput {
-  create?: Maybe<LikeCreateWithoutOnPostInput[] | LikeCreateWithoutOnPostInput>;
-  delete?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
-  connect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
-  set?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
-  disconnect?: Maybe<LikeWhereUniqueInput[] | LikeWhereUniqueInput>;
-  update?: Maybe<
-    | LikeUpdateWithWhereUniqueWithoutOnPostInput[]
-    | LikeUpdateWithWhereUniqueWithoutOnPostInput
-  >;
-  upsert?: Maybe<
-    | LikeUpsertWithWhereUniqueWithoutOnPostInput[]
-    | LikeUpsertWithWhereUniqueWithoutOnPostInput
-  >;
-  deleteMany?: Maybe<LikeScalarWhereInput[] | LikeScalarWhereInput>;
-}
-
-export interface UserCreateWithoutCommentsInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  email: String;
-  phone: String;
-  password: String;
-  likes?: Maybe<LikeCreateManyWithoutAuthorInput>;
-}
-
-export interface LikeUpdateWithWhereUniqueWithoutOnPostInput {
-  where: LikeWhereUniqueInput;
-  data: LikeUpdateWithoutOnPostDataInput;
 }
 
 export interface PostCreateWithoutLikesInput {
@@ -1153,162 +1347,15 @@ export interface PostCreateWithoutLikesInput {
   comments?: Maybe<CommentCreateManyWithoutOnPostInput>;
 }
 
-export interface LikeUpdateWithoutOnPostDataInput {
-  author?: Maybe<UserUpdateOneRequiredWithoutLikesInput>;
-}
-
-export interface CommentCreateWithoutOnPostInput {
-  id?: Maybe<ID_Input>;
-  content: String;
-  author: UserCreateOneWithoutCommentsInput;
-}
-
-export interface UserUpdateOneRequiredWithoutLikesInput {
-  create?: Maybe<UserCreateWithoutLikesInput>;
-  update?: Maybe<UserUpdateWithoutLikesDataInput>;
-  upsert?: Maybe<UserUpsertWithoutLikesInput>;
-  connect?: Maybe<UserWhereUniqueInput>;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
-}
-
-export interface UserUpdateWithoutLikesDataInput {
-  name?: Maybe<String>;
-  email?: Maybe<String>;
-  phone?: Maybe<String>;
-  password?: Maybe<String>;
-  comments?: Maybe<CommentUpdateManyWithoutAuthorInput>;
-}
-
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  email: String;
-  phone: String;
-  password: String;
-  comments?: Maybe<CommentCreateManyWithoutAuthorInput>;
-  likes?: Maybe<LikeCreateManyWithoutAuthorInput>;
-}
-
-export interface CommentUpdateManyWithoutAuthorInput {
-  create?: Maybe<
-    CommentCreateWithoutAuthorInput[] | CommentCreateWithoutAuthorInput
-  >;
-  delete?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
-  connect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
-  set?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
-  disconnect?: Maybe<CommentWhereUniqueInput[] | CommentWhereUniqueInput>;
-  update?: Maybe<
-    | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
-    | CommentUpdateWithWhereUniqueWithoutAuthorInput
-  >;
-  upsert?: Maybe<
-    | CommentUpsertWithWhereUniqueWithoutAuthorInput[]
-    | CommentUpsertWithWhereUniqueWithoutAuthorInput
-  >;
-  deleteMany?: Maybe<CommentScalarWhereInput[] | CommentScalarWhereInput>;
-  updateMany?: Maybe<
-    | CommentUpdateManyWithWhereNestedInput[]
-    | CommentUpdateManyWithWhereNestedInput
-  >;
-}
-
-export interface HistoryUpdateManyMutationInput {
-  title?: Maybe<String>;
-  description?: Maybe<String>;
-  from?: Maybe<String>;
-  to?: Maybe<String>;
-}
-
-export interface CommentUpdateWithWhereUniqueWithoutAuthorInput {
-  where: CommentWhereUniqueInput;
-  data: CommentUpdateWithoutAuthorDataInput;
-}
-
-export interface PostUpdateWithWhereUniqueWithoutBelongToInput {
+export interface PostUpsertWithWhereUniqueWithoutBelongToInput {
   where: PostWhereUniqueInput;
-  data: PostUpdateWithoutBelongToDataInput;
+  update: PostUpdateWithoutBelongToDataInput;
+  create: PostCreateWithoutBelongToInput;
 }
 
-export interface CommentUpdateWithoutAuthorDataInput {
-  content?: Maybe<String>;
-  onPost?: Maybe<PostUpdateOneWithoutCommentsInput>;
-}
-
-export interface LikeCreateWithoutAuthorInput {
+export interface LikeCreateWithoutOnPostInput {
   id?: Maybe<ID_Input>;
-  onPost?: Maybe<PostCreateOneWithoutLikesInput>;
-}
-
-export interface CommentUpsertWithWhereUniqueWithoutAuthorInput {
-  where: CommentWhereUniqueInput;
-  update: CommentUpdateWithoutAuthorDataInput;
-  create: CommentCreateWithoutAuthorInput;
-}
-
-export interface PostCreateWithoutCommentsInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  image: String;
-  date: String;
-  belongTo?: Maybe<HistoryCreateOneWithoutPostsInput>;
-  likes?: Maybe<LikeCreateManyWithoutOnPostInput>;
-}
-
-export interface CommentUpdateManyMutationInput {
-  content?: Maybe<String>;
-}
-
-export interface PostUpsertWithoutCommentsInput {
-  update: PostUpdateWithoutCommentsDataInput;
-  create: PostCreateWithoutCommentsInput;
-}
-
-export interface LikeUpsertWithWhereUniqueWithoutOnPostInput {
-  where: LikeWhereUniqueInput;
-  update: LikeUpdateWithoutOnPostDataInput;
-  create: LikeCreateWithoutOnPostInput;
-}
-
-export interface UserUpsertWithoutLikesInput {
-  update: UserUpdateWithoutLikesDataInput;
-  create: UserCreateWithoutLikesInput;
-}
-
-export interface HistorySubscriptionWhereInput {
-  mutation_in?: Maybe<MutationType[] | MutationType>;
-  updatedFields_contains?: Maybe<String>;
-  updatedFields_contains_every?: Maybe<String[] | String>;
-  updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<HistoryWhereInput>;
-  AND?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
-  OR?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
-  NOT?: Maybe<HistorySubscriptionWhereInput[] | HistorySubscriptionWhereInput>;
-}
-
-export interface HistoryCreateWithoutPostsInput {
-  id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  from: String;
-  to: String;
-}
-
-export interface CommentCreateInput {
-  id?: Maybe<ID_Input>;
-  content: String;
-  author: UserCreateOneWithoutCommentsInput;
-  onPost?: Maybe<PostCreateOneWithoutCommentsInput>;
+  author: UserCreateOneWithoutLikesInput;
 }
 
 export interface PostScalarWhereInput {
@@ -1395,15 +1442,72 @@ export interface PostScalarWhereInput {
   NOT?: Maybe<PostScalarWhereInput[] | PostScalarWhereInput>;
 }
 
-export interface PostCreateInput {
+export interface UserUpdateManyMutationInput {
+  name?: Maybe<String>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput;
+  data: PostUpdateManyDataInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  email?: Maybe<String>;
+  phone?: Maybe<String>;
+}>;
+
+export interface UserUpsertWithoutLikesInput {
+  update: UserUpdateWithoutLikesDataInput;
+  create: UserCreateWithoutLikesInput;
+}
+
+export interface CommentUpsertWithWhereUniqueWithoutAuthorInput {
+  where: CommentWhereUniqueInput;
+  update: CommentUpdateWithoutAuthorDataInput;
+  create: CommentCreateWithoutAuthorInput;
+}
+
+export interface HistoryUpsertWithoutCommentsInput {
+  update: HistoryUpdateWithoutCommentsDataInput;
+  create: HistoryCreateWithoutCommentsInput;
+}
+
+export interface PostUpdateManyDataInput {
+  title?: Maybe<String>;
+  description?: Maybe<String>;
+  image?: Maybe<String>;
+  date?: Maybe<String>;
+}
+
+export interface UserCreateWithoutCommentsInput {
   id?: Maybe<ID_Input>;
-  title: String;
-  description: String;
-  image: String;
-  date: String;
-  belongTo?: Maybe<HistoryCreateOneWithoutPostsInput>;
-  comments?: Maybe<CommentCreateManyWithoutOnPostInput>;
-  likes?: Maybe<LikeCreateManyWithoutOnPostInput>;
+  name?: Maybe<String>;
+  email: String;
+  phone: String;
+  password: String;
+  likes?: Maybe<LikeCreateManyWithoutAuthorInput>;
+}
+
+export type LikeWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface CommentCreateWithoutAuthorInput {
+  id?: Maybe<ID_Input>;
+  content: String;
+  onPost?: Maybe<PostCreateOneWithoutCommentsInput>;
+  onHistory?: Maybe<HistoryCreateOneWithoutCommentsInput>;
+}
+
+export interface CommentCreateWithoutOnHistoryInput {
+  id?: Maybe<ID_Input>;
+  content: String;
+  author: UserCreateOneWithoutCommentsInput;
+  onPost?: Maybe<PostCreateOneWithoutCommentsInput>;
 }
 
 export interface NodeNode {
@@ -1662,107 +1766,6 @@ export interface AggregateCommentSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface Like {
-  id: ID_Output;
-}
-
-export interface LikePromise extends Promise<Like>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  author: <T = UserPromise>() => T;
-  onPost: <T = PostPromise>() => T;
-}
-
-export interface LikeSubscription
-  extends Promise<AsyncIterator<Like>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  author: <T = UserSubscription>() => T;
-  onPost: <T = PostSubscription>() => T;
-}
-
-export interface LikeNullablePromise
-  extends Promise<Like | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  author: <T = UserPromise>() => T;
-  onPost: <T = PostPromise>() => T;
-}
-
-export interface CommentEdge {
-  node: Comment;
-  cursor: String;
-}
-
-export interface CommentEdgePromise extends Promise<CommentEdge>, Fragmentable {
-  node: <T = CommentPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface CommentEdgeSubscription
-  extends Promise<AsyncIterator<CommentEdge>>,
-    Fragmentable {
-  node: <T = CommentSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserEdge {
-  node: User;
-  cursor: String;
-}
-
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
-  cursor: () => Promise<String>;
-}
-
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
-    Fragmentable {
-  node: <T = UserSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
-}
-
-export interface PostSubscriptionPayload {
-  mutation: MutationType;
-  node: Post;
-  updatedFields: String[];
-  previousValues: PostPreviousValues;
-}
-
-export interface PostSubscriptionPayloadPromise
-  extends Promise<PostSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostPreviousValuesPromise>() => T;
-}
-
-export interface PostSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
-    Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostPreviousValuesSubscription>() => T;
-}
-
 export interface PostPreviousValues {
   id: ID_Output;
   title: String;
@@ -1794,6 +1797,107 @@ export interface PostPreviousValuesSubscription
   date: () => Promise<AsyncIterator<String>>;
 }
 
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface CommentEdge {
+  node: Comment;
+  cursor: String;
+}
+
+export interface CommentEdgePromise extends Promise<CommentEdge>, Fragmentable {
+  node: <T = CommentPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface CommentEdgeSubscription
+  extends Promise<AsyncIterator<CommentEdge>>,
+    Fragmentable {
+  node: <T = CommentSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType;
+  node: User;
+  updatedFields: String[];
+  previousValues: UserPreviousValues;
+}
+
+export interface UserSubscriptionPayloadPromise
+  extends Promise<UserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = UserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = UserPreviousValuesPromise>() => T;
+}
+
+export interface UserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = UserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = UserPreviousValuesSubscription>() => T;
+}
+
+export interface PostSubscriptionPayload {
+  mutation: MutationType;
+  node: Post;
+  updatedFields: String[];
+  previousValues: PostPreviousValues;
+}
+
+export interface PostSubscriptionPayloadPromise
+  extends Promise<PostSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = PostPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PostPreviousValuesPromise>() => T;
+}
+
+export interface PostSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PostSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PostPreviousValuesSubscription>() => T;
+}
+
+export interface PostEdge {
+  node: Post;
+  cursor: String;
+}
+
+export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
+  node: <T = PostPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface PostEdgeSubscription
+  extends Promise<AsyncIterator<PostEdge>>,
+    Fragmentable {
+  node: <T = PostSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
 export interface PageInfo {
   hasNextPage: Boolean;
   hasPreviousPage: Boolean;
@@ -1817,21 +1921,30 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
-export interface PostEdge {
-  node: Post;
-  cursor: String;
+export interface Like {
+  id: ID_Output;
 }
 
-export interface PostEdgePromise extends Promise<PostEdge>, Fragmentable {
-  node: <T = PostPromise>() => T;
-  cursor: () => Promise<String>;
+export interface LikePromise extends Promise<Like>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  author: <T = UserPromise>() => T;
+  onPost: <T = PostPromise>() => T;
 }
 
-export interface PostEdgeSubscription
-  extends Promise<AsyncIterator<PostEdge>>,
+export interface LikeSubscription
+  extends Promise<AsyncIterator<Like>>,
     Fragmentable {
-  node: <T = PostSubscription>() => T;
-  cursor: () => Promise<AsyncIterator<String>>;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  author: <T = UserSubscription>() => T;
+  onPost: <T = PostSubscription>() => T;
+}
+
+export interface LikeNullablePromise
+  extends Promise<Like | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  author: <T = UserPromise>() => T;
+  onPost: <T = PostPromise>() => T;
 }
 
 export interface Comment {
@@ -1846,6 +1959,7 @@ export interface CommentPromise extends Promise<Comment>, Fragmentable {
   author: <T = UserPromise>() => T;
   onPost: <T = PostPromise>() => T;
   createdAt: () => Promise<DateTimeOutput>;
+  onHistory: <T = HistoryPromise>() => T;
 }
 
 export interface CommentSubscription
@@ -1856,6 +1970,7 @@ export interface CommentSubscription
   author: <T = UserSubscription>() => T;
   onPost: <T = PostSubscription>() => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  onHistory: <T = HistorySubscription>() => T;
 }
 
 export interface CommentNullablePromise
@@ -1866,6 +1981,7 @@ export interface CommentNullablePromise
   author: <T = UserPromise>() => T;
   onPost: <T = PostPromise>() => T;
   createdAt: () => Promise<DateTimeOutput>;
+  onHistory: <T = HistoryPromise>() => T;
 }
 
 export interface AggregateLike {
@@ -1990,20 +2106,25 @@ export interface CommentConnectionSubscription
   aggregate: <T = AggregateCommentSubscription>() => T;
 }
 
-export interface AggregateUser {
-  count: Int;
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
 }
 
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
     Fragmentable {
-  count: () => Promise<Int>;
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
 }
 
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
 }
 
 export interface HistorySubscriptionPayload {
@@ -2031,20 +2152,20 @@ export interface HistorySubscriptionPayloadSubscription
   previousValues: <T = HistoryPreviousValuesSubscription>() => T;
 }
 
-export interface AggregatePost {
-  count: Int;
+export interface BatchPayload {
+  count: Long;
 }
 
-export interface AggregatePostPromise
-  extends Promise<AggregatePost>,
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
     Fragmentable {
-  count: () => Promise<Int>;
+  count: () => Promise<Long>;
 }
 
-export interface AggregatePostSubscription
-  extends Promise<AsyncIterator<AggregatePost>>,
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
     Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
+  count: () => Promise<AsyncIterator<Long>>;
 }
 
 export interface LikeEdge {
@@ -2130,6 +2251,15 @@ export interface HistoryPromise extends Promise<History>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  comments: <T = FragmentableArray<Comment>>(args?: {
+    where?: CommentWhereInput;
+    orderBy?: CommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface HistorySubscription
@@ -2150,6 +2280,15 @@ export interface HistorySubscription
     first?: Int;
     last?: Int;
   }) => T;
+  comments: <T = Promise<AsyncIterator<CommentSubscription>>>(args?: {
+    where?: CommentWhereInput;
+    orderBy?: CommentOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
 }
 
 export interface HistoryNullablePromise
@@ -2164,6 +2303,15 @@ export interface HistoryNullablePromise
   posts: <T = FragmentableArray<Post>>(args?: {
     where?: PostWhereInput;
     orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  comments: <T = FragmentableArray<Comment>>(args?: {
+    where?: CommentWhereInput;
+    orderBy?: CommentOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -2240,58 +2388,42 @@ export interface PostConnectionSubscription
   aggregate: <T = AggregatePostSubscription>() => T;
 }
 
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
+export interface AggregatePost {
+  count: Int;
 }
 
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
+export interface AggregatePostPromise
+  extends Promise<AggregatePost>,
     Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
+export interface AggregatePostSubscription
+  extends Promise<AsyncIterator<AggregatePost>>,
     Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface UserSubscriptionPayload {
-  mutation: MutationType;
-  node: User;
-  updatedFields: String[];
-  previousValues: UserPreviousValues;
+export interface AggregateUser {
+  count: Int;
 }
 
-export interface UserSubscriptionPayloadPromise
-  extends Promise<UserSubscriptionPayload>,
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
     Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = UserPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = UserPreviousValuesPromise>() => T;
+  count: () => Promise<Int>;
 }
 
-export interface UserSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<UserSubscriptionPayload>>,
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = UserSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = UserPreviousValuesSubscription>() => T;
+  count: () => Promise<AsyncIterator<Int>>;
 }
 
 /*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
-
-export type Long = string;
 
 /*
 DateTime scalar input type, allowing Date
@@ -2304,15 +2436,17 @@ DateTime scalar output type, which is always a string
 export type DateTimeOutput = string;
 
 /*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
+
+export type Long = string;
+
+/*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number;
 export type ID_Output = string;
-
-/*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
-*/
-export type String = string;
 
 /*
 The `Boolean` scalar type represents `true` or `false`.
