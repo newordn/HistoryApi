@@ -2,10 +2,11 @@ const {APP_SECRET} = require('../helpers/user')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const {getUserId} = require('../helpers/user')
-
+const {notify} = require('../helpers/notification')
 const post = async (parent,args,context,info)=>{
     const image = await context.storeUpload(args.image)
     const post = await context.prisma.createPost({...args,image:image.path})
+    notify({title:post.title,bigText:post.description,message:post.description,subText:"history"})
     return post
 }
 const history = async (parent,args,context,info)=>{

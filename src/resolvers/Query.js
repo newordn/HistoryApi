@@ -1,4 +1,6 @@
-const info = ()=> `Welcome on HistoryApi`
+
+const info = ()=>{
+      return  `Welcome on HistoryApi`}
 const posts = async (parent,args,context,info)=>
 {
     console.log('posts query')
