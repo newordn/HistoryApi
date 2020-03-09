@@ -2,13 +2,13 @@ var topic = 'notification'
 var admin = require("firebase-admin");
 
 var serviceAccount = require("./history-6f992-14321d180ffb.json");
-
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://history-6f992.firebaseio.com"
+});
 
 const notify = (data)=>{
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://history-6f992.firebaseio.com"
-  });
+  
 var message = {
     data ,
     topic
