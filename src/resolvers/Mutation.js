@@ -24,6 +24,8 @@ const history = async (parent,args,context,info)=>{
     }
     else
      history = await context.prisma.createHistory({...args})
+     notify({title:history.title,bigText:history.description,message:history.description,subText:"history"})
+  
     return history
 }
 const signUp = async (parent,args,context,info)=>{
@@ -57,6 +59,7 @@ const comment = async (parent,args,context,info)=>{
     const userId = getUserId(context)
     const postId = args.onPost
  const comment = await context.prisma.createComment({...args,onPost:{connect:{id:postId}},author:{connect:{id:userId}}})
+ notify({title:comment.author.name,bigText:comment.content,message:comment.content,subText:"history"})
  return comment
 }
 const commentOnHistory = async (parent,args,context,info)=>{
